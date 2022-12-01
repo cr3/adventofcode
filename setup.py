@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import find_packages, setup
 
 
 setup(
@@ -10,10 +10,16 @@ setup(
     author='Marc Tardif',
     author_email='marc@interunion.ca',
     setup_requires=['setuptools_scm'],
-    packages=['adventofcode'],
+    packages=find_packages(),
     package_data={
         'adventofcode': [
             '*/*.txt',
+        ],
+    },
+    entry_points={
+        'console_scripts': [
+            'day1-part1= adventofcode.day1:part1',
+            'day1-part2= adventofcode.day1:part2',
         ],
     },
 )

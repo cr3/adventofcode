@@ -5,8 +5,9 @@ from io import StringIO
 from adventofcode.day1 import (
     INPUT,
     group_lines,
-    main,
     parse_input,
+    part1,
+    part2,
     split_lines,
     sum_groups,
 )
@@ -34,12 +35,23 @@ def test_sum_groups():
 def test_parse_input(tmp_path):
     path = tmp_path / 'input.txt'
     path.write_text('1\n2\n\n3\n4\n')
-    result = parse_input(path)
-    assert result == 7
+    sums = list(parse_input(path))
+    assert sums == [3, 7]
 
 
-def test_main(capsys):
-    main([])
+def test_part1(capsys, tmp_path):
+    path = tmp_path / 'input.txt'
+    path.write_text('1\n2\n\n3\n4\n')
+    part1(path)
     captured = capsys.readouterr()
     result = captured.out
-    assert result.strip().isdigit()
+    assert result == '7\n'
+
+
+def test_part2(capsys, tmp_path):
+    path = tmp_path / 'input.txt'
+    path.write_text('1\n\n2\n\n3\n\n4')
+    part2(path)
+    captured = capsys.readouterr()
+    result = captured.out
+    assert result == '9\n'

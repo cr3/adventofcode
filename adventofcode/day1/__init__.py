@@ -1,6 +1,5 @@
 """Day 1."""
 
-import argparse
 from functools import partial
 from io import TextIOBase
 from itertools import groupby
@@ -31,23 +30,20 @@ def sum_groups(groups: Iterable[list[str]]) -> Iterable[int]:
     return (sum(map(int, group)) for group in groups)
 
 
-def parse_input(path: Path) -> int:
+def parse_input(path: Path) -> Iterable[int]:
     with path.open() as stream:
         lines = split_lines(stream)
         groups = group_lines(lines)
-        sums = sum_groups(groups)
-        result = max(sums)
-
-    return result
+        return sum_groups(groups)
 
 
-def main(argv: list[str] = []) -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--input', default=INPUT)
-    args = parser.parse_args(argv)
-    result = parse_input(args.input)
+def part1(path: Path = INPUT) -> None:
+    sums = parse_input(path)
+    result = max(sums)
     print(result)
 
 
-if __name__ == '__main__':  # pragma: no cover
-    main()
+def part2(path: Path = INPUT) -> None:
+    sums = parse_input(path)
+    result = sum(sorted(sums, reverse=True)[0:3])
+    print(result)
