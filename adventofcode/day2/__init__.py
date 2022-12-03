@@ -1,6 +1,6 @@
 """Day 2."""
 
-from enum import Enum, IntEnum
+from enum import IntEnum
 from pathlib import Path
 from typing import Iterable, Type, TypeVar
 
@@ -20,36 +20,6 @@ class Shape(IntEnum):
     C = Z = 3  # Scissors
 
 
-class Response(Enum):
-    """Map response to defeating shape."""
-
-    X = Shape.C
-    Y = Shape.A
-    Z = Shape.B
-
-    @property
-    def shape(self) -> Shape:
-        return Shape[self.name]
-
-    def defeats(self, shape: Shape) -> bool:
-        """
-        Rock defeats Scissors, Scissors defeats Paper, and Paper
-        defeats Rock.
-        """
-        return self.value == shape
-
-    def outcome(self, shape: Shape) -> int:
-        """
-        0 if you lost, 3 if the round was a draw, and 6 if you won.
-        """
-        if self.defeats(shape):
-            return 6
-        elif self.shape == shape:
-            return 3
-        else:
-            return 0
-
-
 T = TypeVar('T', bound='Round')
 
 
@@ -57,21 +27,33 @@ T = TypeVar('T', bound='Round')
 class Round:
 
     shape: Shape
-    response: Response
+    response: Shape
 
     @classmethod
     def parse(cls: Type[T], line: str) -> T:
         """Parse a line into a round."""
         shape, response = line.split()
-        return cls(Shape[shape], Response[response])
+        return cls(Shape[shape], Shape[response])
 
     @property
-    def score(self) -> int:
+    def score(self):
         """
         The score for a single round is the score for the shape you
-        selected plus the score for the outcome of the round.
+        selected (1 for Rock, 2 for Paper, and 3 for Scissors) plus
+        the score for the outcome of the round (0 if you lost, 3 if the
+        round was a draw, and 6 if you won).
         """
-        return self.response.shape + self.response.outcome(self.shape)
+        score = self.response
+        if self.shape == self.response:
+            score += 3
+        elif (
+            (self.shape == Shape.C and self.response == Shape.X)
+            or (self.shape == Shape.A and self.response == Shape.Y)
+            or (self.shape == Shape.B and self.response == Shape.Z)
+        ):
+            score += 6
+
+        return score
 
 
 def parse_rounds(lines: Iterable[str]) -> Iterable[Round]:
@@ -79,15 +61,14 @@ def parse_rounds(lines: Iterable[str]) -> Iterable[Round]:
     return map(Round.parse, lines)
 
 
-def parse_input(path: Path) -> Iterable[int]:
+def parse_input(path: Path) -> Iterable[Round]:
     """Parse a path into scores."""
     with path.open() as stream:
         lines = split_lines(stream)
-        rounds = parse_rounds(lines)
-        return (r.score for r in rounds)
+        return parse_rounds(lines)
 
 
 def part1(path: Path = INPUT) -> None:
-    scores = parse_input(path)
-    result = sum(scores)
+    rounds = parse_input(path)
+    result = sum(r.score for r in rounds)
     print(result)
