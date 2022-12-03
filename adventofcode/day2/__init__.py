@@ -35,25 +35,48 @@ class Round:
         shape, response = line.split()
         return cls(Shape[shape], Shape[response])
 
-    @property
-    def score(self):
-        """
-        The score for a single round is the score for the shape you
-        selected (1 for Rock, 2 for Paper, and 3 for Scissors) plus
-        the score for the outcome of the round (0 if you lost, 3 if the
-        round was a draw, and 6 if you won).
-        """
-        score = self.response
-        if self.shape == self.response:
-            score += 3
-        elif (
-            (self.shape == Shape.C and self.response == Shape.X)
-            or (self.shape == Shape.A and self.response == Shape.Y)
-            or (self.shape == Shape.B and self.response == Shape.Z)
-        ):
-            score += 6
 
-        return score
+def calculate1(shape: Shape, response: Shape) -> int:
+    """
+    The score for a single round is the score for the shape you
+    selected (1 for Rock, 2 for Paper, and 3 for Scissors) plus
+    the score for the outcome of the round (0 if you lost, 3 if the
+    round was a draw, and 6 if you won).
+    """
+    score = response.value
+    if shape == response:
+        score += 3
+    elif (
+        (shape == Shape.C and response == Shape.X)
+        or (shape == Shape.A and response == Shape.Y)
+        or (shape == Shape.B and response == Shape.Z)
+    ):
+        score += 6
+
+    return score
+
+
+def calculate2(shape: Shape, response: Shape) -> int:
+    """
+    X means you need to lose, Y means you need to end the round in
+    a draw, and Z means you need to win. Good luck!"
+    """
+    if response == Shape.X:
+        new_response = {
+            Shape.A: Shape.Z,
+            Shape.B: Shape.X,
+            Shape.C: Shape.Y,
+        }[shape]
+    elif response == Shape.Z:
+        new_response = {
+            Shape.A: Shape.Y,
+            Shape.B: Shape.Z,
+            Shape.C: Shape.X,
+        }[shape]
+    else:
+        new_response = shape
+
+    return calculate1(shape, new_response)
 
 
 def parse_rounds(lines: Iterable[str]) -> Iterable[Round]:
@@ -70,5 +93,11 @@ def parse_input(path: Path) -> Iterable[Round]:
 
 def part1(path: Path = INPUT) -> None:
     rounds = parse_input(path)
-    result = sum(r.score for r in rounds)
+    result = sum(calculate1(r.shape, r.response) for r in rounds)
+    print(result)
+
+
+def part2(path: Path = INPUT) -> None:
+    rounds = parse_input(path)
+    result = sum(calculate2(r.shape, r.response) for r in rounds)
     print(result)

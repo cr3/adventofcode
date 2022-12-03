@@ -6,9 +6,12 @@ from adventofcode.day2 import (
     INPUT,
     Round,
     Shape,
+    calculate1,
+    calculate2,
     parse_input,
     parse_rounds,
     part1,
+    part2,
 )
 
 
@@ -47,8 +50,20 @@ def test_round_parse():
         (Shape.C, Shape.Z, 6),
     ],
 )
-def test_round_score(shape, response, expected):
-    assert Round(shape, response).score == expected
+def test_calculate1(shape, response, expected):
+    assert calculate1(shape, response) == expected
+
+
+@pytest.mark.parametrize(
+    'shape, response, expected',
+    [
+        (Shape.A, Shape.Y, 4),
+        (Shape.B, Shape.X, 1),
+        (Shape.C, Shape.Z, 7),
+    ],
+)
+def test_calculate2(shape, response, expected):
+    assert calculate2(shape, response) == expected
 
 
 def test_parse_rounds():
@@ -74,3 +89,12 @@ def test_part1(capsys, tmp_path):
     captured = capsys.readouterr()
     result = captured.out
     assert result == '15\n'
+
+
+def test_part2(capsys, tmp_path):
+    path = tmp_path / 'input.txt'
+    path.write_text('A Y\nB X\nC Z\n')
+    part2(path)
+    captured = capsys.readouterr()
+    result = captured.out
+    assert result == '12\n'
