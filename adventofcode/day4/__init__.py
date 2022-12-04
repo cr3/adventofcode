@@ -36,6 +36,9 @@ class Range:
     def contains(self, other: RangeType) -> bool:
         return self.start <= other.start and self.stop >= other.stop
 
+    def overlaps(self, other: RangeType) -> bool:
+        return max(self.start, other.start) <= min(self.stop, other.stop)
+
 
 PairType = TypeVar('PairType', bound='Pair')
 
@@ -57,6 +60,10 @@ class Pair:
     def has_contains(self):
         return self.left.contains(self.right) or self.right.contains(self.left)
 
+    @property
+    def has_overlap(self):
+        return self.left.overlaps(self.right)
+
 
 def parse_input(path: Path) -> Iterable[Pair]:
     with path.open() as stream:
@@ -67,4 +74,10 @@ def parse_input(path: Path) -> Iterable[Pair]:
 def part1(path: Path = INPUT) -> None:
     pairs = parse_input(path)
     result = sum(pair.has_contains for pair in pairs)
+    print(result)
+
+
+def part2(path: Path = INPUT) -> None:
+    pairs = parse_input(path)
+    result = sum(pair.has_overlap for pair in pairs)
     print(result)
