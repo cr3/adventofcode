@@ -24,6 +24,7 @@ setup(
             'day2-part2= adventofcode.day2:part2',
             'day3-part1= adventofcode.day3:part1',
             'day3-part2= adventofcode.day3:part2',
+            'day4-part1= adventofcode.day4:part1',
         ],
     },
 )
