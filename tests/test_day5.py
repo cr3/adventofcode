@@ -10,6 +10,7 @@ from adventofcode.day5 import (
     Move,
     parse_input,
     part1,
+    part2,
 )
 
 
@@ -88,6 +89,12 @@ def test_stacks_rearrange():
     assert stacks == Stacks([[], ['b', 'a']])
 
 
+def test_stacks_rearrange_multiple():
+    stacks = Stacks([['a', 'b'], []])
+    stacks.rearrange_multiple(Move(2, 1, 2))
+    assert stacks == Stacks([[], ['a', 'b']])
+
+
 def test_parse_input(tmp_path):
     path = tmp_path / 'input.txt'
     path.write_text(
@@ -136,3 +143,26 @@ def test_part1(capsys, tmp_path):
     captured = capsys.readouterr()
     result = captured.out
     assert result == 'CMZ\n'
+
+
+def test_part2(capsys, tmp_path):
+    path = tmp_path / 'input.txt'
+    path.write_text(
+        dedent(
+            """\
+            [D]
+        [N] [C]
+        [Z] [M] [P]
+        1   2   3
+
+        move 1 from 2 to 1
+        move 3 from 1 to 3
+        move 2 from 2 to 1
+        move 1 from 1 to 2
+    """
+        )
+    )
+    part2(path)
+    captured = capsys.readouterr()
+    result = captured.out
+    assert result == 'MCD\n'

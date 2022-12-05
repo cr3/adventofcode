@@ -50,6 +50,12 @@ class Stacks(Mapping):
             crate = self[move.src].pop()
             self[move.dst].append(crate)
 
+    def rearrange_multiple(self, move: Move) -> None:
+        i = -move.n
+        crates = self[move.src][i:]
+        del self[move.src][i:]
+        self[move.dst].extend(crates)
+
     @classmethod
     def parse(cls: Type[StacksType], drawing: str) -> StacksType:
         lines = filter(None, reversed(drawing.split('\n')))
@@ -80,5 +86,13 @@ def part1(path: Path = INPUT) -> None:
     stacks, moves = parse_input(path)
     for move in moves:
         stacks.rearrange(move)
+    result = ''.join(stack[-1] for stack in stacks.values())
+    print(result)
+
+
+def part2(path: Path = INPUT) -> None:
+    stacks, moves = parse_input(path)
+    for move in moves:
+        stacks.rearrange_multiple(move)
     result = ''.join(stack[-1] for stack in stacks.values())
     print(result)
