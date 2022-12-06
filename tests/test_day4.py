@@ -3,17 +3,12 @@
 import pytest
 
 from adventofcode.day4 import (
-    INPUT,
     Pair,
     Range,
-    parse_input,
+    parse_data,
     part1,
     part2,
 )
-
-
-def test_input():
-    assert INPUT.exists()
 
 
 def test_range_error():
@@ -113,10 +108,10 @@ def test_pair_has_overlap(line, expected):
     assert Pair.parse(line).has_overlap is expected
 
 
-def test_parse_input(tmp_path):
-    path = tmp_path / 'input.txt'
-    path.write_text('2-4,6-8\n2-3,4-5\n5-7,7-9\n2-8,3-7\n6-6,4-6\n2-6,4-8\n')
-    pairs = list(parse_input(path))
+def test_parse_data():
+    pairs = list(
+        parse_data('2-4,6-8\n2-3,4-5\n5-7,7-9\n2-8,3-7\n6-6,4-6\n2-6,4-8\n')
+    )
     assert pairs == [
         Pair(Range(2, 4), Range(6, 8)),
         Pair(Range(2, 3), Range(4, 5)),
@@ -127,19 +122,15 @@ def test_parse_input(tmp_path):
     ]
 
 
-def test_part1(capsys, tmp_path):
-    path = tmp_path / 'input.txt'
-    path.write_text('2-4,6-8\n2-3,4-5\n5-7,7-9\n2-8,3-7\n6-6,4-6\n2-6,4-8\n')
-    part1(path)
+def test_part1(capsys):
+    part1('2-4,6-8\n2-3,4-5\n5-7,7-9\n2-8,3-7\n6-6,4-6\n2-6,4-8\n')
     captured = capsys.readouterr()
     result = captured.out
     assert result == '2\n'
 
 
-def test_part2(capsys, tmp_path):
-    path = tmp_path / 'input.txt'
-    path.write_text('2-4,6-8\n2-3,4-5\n5-7,7-9\n2-8,3-7\n6-6,4-6\n2-6,4-8\n')
-    part2(path)
+def test_part2(capsys):
+    part2('2-4,6-8\n2-3,4-5\n5-7,7-9\n2-8,3-7\n6-6,4-6\n2-6,4-8\n')
     captured = capsys.readouterr()
     result = captured.out
     assert result == '4\n'

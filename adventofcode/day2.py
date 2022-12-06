@@ -1,15 +1,13 @@
 """Day 2."""
 
 from enum import IntEnum
-from pathlib import Path
 from typing import Iterable, Type, TypeVar
 
 import attr
+from aocd import get_data
 
-from adventofcode.day1 import split_lines
 
-
-INPUT = Path(__file__).parent / 'input.txt'
+DATA = get_data(day=2, year=2022)
 
 
 class Shape(IntEnum):
@@ -84,20 +82,18 @@ def parse_rounds(lines: Iterable[str]) -> Iterable[Round]:
     return map(Round.parse, lines)
 
 
-def parse_input(path: Path) -> Iterable[Round]:
+def parse_data(data: str) -> Iterable[Round]:
     """Parse a path into scores."""
-    with path.open() as stream:
-        lines = split_lines(stream)
-        return parse_rounds(lines)
+    return parse_rounds(data.splitlines())
 
 
-def part1(path: Path = INPUT) -> None:
-    rounds = parse_input(path)
+def part1(data: str = DATA) -> None:
+    rounds = parse_data(data)
     result = sum(calculate1(r.shape, r.response) for r in rounds)
     print(result)
 
 
-def part2(path: Path = INPUT) -> None:
-    rounds = parse_input(path)
+def part2(data: str = DATA) -> None:
+    rounds = parse_data(data)
     result = sum(calculate2(r.shape, r.response) for r in rounds)
     print(result)

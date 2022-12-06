@@ -3,17 +3,12 @@
 import pytest
 
 from adventofcode.day3 import (
-    INPUT,
     Rucksack,
-    parse_input1,
-    parse_input2,
+    parse_data1,
+    parse_data2,
     part1,
     part2,
 )
-
-
-def test_input():
-    assert INPUT.exists()
 
 
 @pytest.mark.parametrize(
@@ -63,17 +58,17 @@ def test_rucksack_priority(rucksack, expected):
     assert rucksack.priority == expected
 
 
-def test_parse_input1(tmp_path):
-    path = tmp_path / 'input.txt'
-    path.write_text(
-        'vJrwpWtwJgWrhcsFMMfFFhFp\n'
-        'jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL\n'
-        'PmmdzqPrVvPwwTWBwg\n'
-        'wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn\n'
-        'ttgJtRGJQctTZtZT\n'
-        'CrZsJsPPZsGzwwsLwLmpwMDw\n'
+def test_parse_data1():
+    rounds = list(
+        parse_data1(
+            'vJrwpWtwJgWrhcsFMMfFFhFp\n'
+            'jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL\n'
+            'PmmdzqPrVvPwwTWBwg\n'
+            'wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn\n'
+            'ttgJtRGJQctTZtZT\n'
+            'CrZsJsPPZsGzwwsLwLmpwMDw\n'
+        )
     )
-    rounds = list(parse_input1(path))
     assert rounds == [
         Rucksack(['vJrwpWtwJgWr', 'hcsFMMfFFhFp']),
         Rucksack(['jqHRNqRjqzjGDLGL', 'rsFMfFZSrLrFZsSL']),
@@ -84,17 +79,17 @@ def test_parse_input1(tmp_path):
     ]
 
 
-def test_parse_input2(tmp_path):
-    path = tmp_path / 'input.txt'
-    path.write_text(
-        'vJrwpWtwJgWrhcsFMMfFFhFp\n'
-        'jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL\n'
-        'PmmdzqPrVvPwwTWBwg\n'
-        'wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn\n'
-        'ttgJtRGJQctTZtZT\n'
-        'CrZsJsPPZsGzwwsLwLmpwMDw\n'
+def test_parse_data2():
+    rounds = list(
+        parse_data2(
+            'vJrwpWtwJgWrhcsFMMfFFhFp\n'
+            'jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL\n'
+            'PmmdzqPrVvPwwTWBwg\n'
+            'wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn\n'
+            'ttgJtRGJQctTZtZT\n'
+            'CrZsJsPPZsGzwwsLwLmpwMDw\n'
+        )
     )
-    rounds = list(parse_input2(path))
     assert rounds == [
         Rucksack(
             [
@@ -113,9 +108,8 @@ def test_parse_input2(tmp_path):
     ]
 
 
-def test_part1(capsys, tmp_path):
-    path = tmp_path / 'input.txt'
-    path.write_text(
+def test_part1(capsys):
+    part1(
         'vJrwpWtwJgWrhcsFMMfFFhFp\n'
         'jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL\n'
         'PmmdzqPrVvPwwTWBwg\n'
@@ -123,15 +117,13 @@ def test_part1(capsys, tmp_path):
         'ttgJtRGJQctTZtZT\n'
         'CrZsJsPPZsGzwwsLwLmpwMDw\n'
     )
-    part1(path)
     captured = capsys.readouterr()
     result = captured.out
     assert result == '157\n'
 
 
-def test_part2(capsys, tmp_path):
-    path = tmp_path / 'input.txt'
-    path.write_text(
+def test_part2(capsys):
+    part2(
         'vJrwpWtwJgWrhcsFMMfFFhFp\n'
         'jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL\n'
         'PmmdzqPrVvPwwTWBwg\n'
@@ -139,7 +131,6 @@ def test_part2(capsys, tmp_path):
         'ttgJtRGJQctTZtZT\n'
         'CrZsJsPPZsGzwwsLwLmpwMDw\n'
     )
-    part2(path)
     captured = capsys.readouterr()
     result = captured.out
     assert result == '70\n'

@@ -3,20 +3,15 @@
 import pytest
 
 from adventofcode.day2 import (
-    INPUT,
     Round,
     Shape,
     calculate1,
     calculate2,
-    parse_input,
+    parse_data,
     parse_rounds,
     part1,
     part2,
 )
-
-
-def test_input():
-    assert INPUT.exists()
 
 
 @pytest.mark.parametrize(
@@ -71,10 +66,8 @@ def test_parse_rounds():
     assert rounds == [Round(Shape.A, Shape.Y)]
 
 
-def test_parse_input(tmp_path):
-    path = tmp_path / 'input.txt'
-    path.write_text('A Y\nB X\nC Z\n')
-    rounds = list(parse_input(path))
+def test_parse_data():
+    rounds = list(parse_data('A Y\nB X\nC Z\n'))
     assert rounds == [
         Round(Shape.A, Shape.Y),
         Round(Shape.B, Shape.X),
@@ -82,19 +75,15 @@ def test_parse_input(tmp_path):
     ]
 
 
-def test_part1(capsys, tmp_path):
-    path = tmp_path / 'input.txt'
-    path.write_text('A Y\nB X\nC Z\n')
-    part1(path)
+def test_part1(capsys):
+    part1('A Y\nB X\nC Z\n')
     captured = capsys.readouterr()
     result = captured.out
     assert result == '15\n'
 
 
-def test_part2(capsys, tmp_path):
-    path = tmp_path / 'input.txt'
-    path.write_text('A Y\nB X\nC Z\n')
-    part2(path)
+def test_part2(capsys):
+    part2('A Y\nB X\nC Z\n')
     captured = capsys.readouterr()
     result = captured.out
     assert result == '12\n'

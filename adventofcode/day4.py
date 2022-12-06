@@ -1,15 +1,14 @@
 """Day 4."""
 
 import re
-from pathlib import Path
 
 import attr
 from typing import Iterable, Type, TypeVar
 
-from adventofcode.day1 import split_lines
+from aocd import get_data
 
 
-INPUT = Path(__file__).parent / 'input.txt'
+DATA = get_data(day=4, year=2022)
 
 
 RangeType = TypeVar('RangeType', bound='Range')
@@ -65,19 +64,17 @@ class Pair:
         return self.left.overlaps(self.right)
 
 
-def parse_input(path: Path) -> Iterable[Pair]:
-    with path.open() as stream:
-        lines = split_lines(stream)
-        return map(Pair.parse, lines)
+def parse_data(data: str) -> Iterable[Pair]:
+    return map(Pair.parse, data.splitlines())
 
 
-def part1(path: Path = INPUT) -> None:
-    pairs = parse_input(path)
+def part1(data: str = DATA) -> None:
+    pairs = parse_data(data)
     result = sum(pair.has_contains for pair in pairs)
     print(result)
 
 
-def part2(path: Path = INPUT) -> None:
-    pairs = parse_input(path)
+def part2(data: str = DATA) -> None:
+    pairs = parse_data(data)
     result = sum(pair.has_overlap for pair in pairs)
     print(result)

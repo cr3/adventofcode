@@ -1,25 +1,12 @@
 """Unit tests for day 1."""
 
-from io import StringIO
-
 from adventofcode.day1 import (
-    INPUT,
     group_lines,
-    parse_input,
+    parse_data,
     part1,
     part2,
-    split_lines,
     sum_groups,
 )
-
-
-def test_input():
-    assert INPUT.exists()
-
-
-def test_split_lines():
-    lines = list(split_lines(StringIO('1\n\n3\n')))
-    assert lines == ['1', '', '3']
 
 
 def test_group_lines():
@@ -32,26 +19,20 @@ def test_sum_groups():
     assert sums == [3, 7]
 
 
-def test_parse_input(tmp_path):
-    path = tmp_path / 'input.txt'
-    path.write_text('1\n2\n\n3\n4\n')
-    sums = list(parse_input(path))
+def test_parse_data():
+    sums = list(parse_data('1\n2\n\n3\n4\n'))
     assert sums == [3, 7]
 
 
-def test_part1(capsys, tmp_path):
-    path = tmp_path / 'input.txt'
-    path.write_text('1\n2\n\n3\n4\n')
-    part1(path)
+def test_part1(capsys):
+    part1('1\n2\n\n3\n4\n')
     captured = capsys.readouterr()
     result = captured.out
     assert result == '7\n'
 
 
-def test_part2(capsys, tmp_path):
-    path = tmp_path / 'input.txt'
-    path.write_text('1\n\n2\n\n3\n\n4')
-    part2(path)
+def test_part2(capsys):
+    part2('1\n\n2\n\n3\n\n4')
     captured = capsys.readouterr()
     result = captured.out
     assert result == '9\n'

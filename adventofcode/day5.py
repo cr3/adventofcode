@@ -2,13 +2,13 @@
 
 import re
 from collections.abc import Mapping
-from pathlib import Path
 from typing import Iterable, Tuple, Type, TypeVar
 
 import attr
+from aocd import get_data
 
 
-INPUT = Path(__file__).parent / 'input.txt'
+DATA = get_data(day=5, year=2022)
 
 
 MoveType = TypeVar('MoveType', bound='Move')
@@ -66,32 +66,31 @@ class Stacks(Mapping):
         return cls(cols)
 
 
-def parse_input(path: Path) -> Tuple[Stacks, Iterable[Move]]:
-    with path.open() as stream:
-        drawing = []
-        while True:
-            line = stream.readline()
-            if line == '\n':
-                break
+def parse_data(data: str) -> Tuple[Stacks, Iterable[Move]]:
+    drawing = []
+    lines = iter(data.splitlines())
+    for line in lines:
+        if line == '':
+            break
 
-            drawing.append(line)
+        drawing.append(line)
 
-        stacks = Stacks.parse(''.join(drawing))
-        moves = map(Move.parse, stream.readlines())
+    stacks = Stacks.parse('\n'.join(drawing))
+    moves = map(Move.parse, lines)
 
-        return stacks, moves
+    return stacks, moves
 
 
-def part1(path: Path = INPUT) -> None:
-    stacks, moves = parse_input(path)
+def part1(data: str = DATA) -> None:
+    stacks, moves = parse_data(data)
     for move in moves:
         stacks.rearrange(move)
     result = ''.join(stack[-1] for stack in stacks.values())
     print(result)
 
 
-def part2(path: Path = INPUT) -> None:
-    stacks, moves = parse_input(path)
+def part2(data: str = DATA) -> None:
+    stacks, moves = parse_data(data)
     for move in moves:
         stacks.rearrange_multiple(move)
     result = ''.join(stack[-1] for stack in stacks.values())

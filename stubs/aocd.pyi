@@ -1,0 +1,3 @@
+"""Stubs for advent-of-code-data module."""
+
+def get_data(day: int, year: int) -> str: ...

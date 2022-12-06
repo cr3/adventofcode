@@ -3,19 +3,14 @@
 import pytest
 
 from adventofcode.day6 import (
-    INPUT,
-    parse_text,
+    parse_data,
     part1,
     part2,
 )
 
 
-def test_input():
-    assert INPUT.exists()
-
-
 @pytest.mark.parametrize(
-    'text, expected',
+    'data, expected',
     [
         ('aabbccddeeffgghhiijjkkllmmnn', 0),
         ('bvwbjplbgvbhsrlpgdmjqwftvncz', 5),
@@ -24,12 +19,12 @@ def test_input():
         ('zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw', 11),
     ],
 )
-def test_parse_marker(text, expected):
-    assert parse_text(text, 4) == expected
+def test_parse_marker(data, expected):
+    assert parse_data(data, 4) == expected
 
 
 @pytest.mark.parametrize(
-    'text, expected',
+    'data, expected',
     [
         ('mjqjpqmgbljsphdztnvjfqwrcgsmlb', 19),
         ('bvwbjplbgvbhsrlpgdmjqwftvncz', 23),
@@ -38,23 +33,19 @@ def test_parse_marker(text, expected):
         ('zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw', 26),
     ],
 )
-def test_parse_message(text, expected):
-    assert parse_text(text, 14) == expected
+def test_parse_message(data, expected):
+    assert parse_data(data, 14) == expected
 
 
-def test_part1(capsys, tmp_path):
-    path = tmp_path / 'input.txt'
-    path.write_text('zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw\n')
-    part1(path)
+def test_part1(capsys):
+    part1('zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw\n')
     captured = capsys.readouterr()
     result = captured.out
     assert result == '11\n'
 
 
-def test_part2(capsys, tmp_path):
-    path = tmp_path / 'input.txt'
-    path.write_text('zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw\n')
-    part2(path)
+def test_part2(capsys):
+    part2('zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw\n')
     captured = capsys.readouterr()
     result = captured.out
     assert result == '26\n'

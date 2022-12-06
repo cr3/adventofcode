@@ -5,17 +5,12 @@ from textwrap import dedent
 import pytest
 
 from adventofcode.day5 import (
-    INPUT,
     Stacks,
     Move,
-    parse_input,
+    parse_data,
     part1,
     part2,
 )
-
-
-def test_input():
-    assert INPUT.exists()
 
 
 def test_move_parse():
@@ -95,9 +90,8 @@ def test_stacks_rearrange_multiple():
     assert stacks == Stacks([[], ['a', 'b']])
 
 
-def test_parse_input(tmp_path):
-    path = tmp_path / 'input.txt'
-    path.write_text(
+def test_parse_data():
+    stacks, moves = parse_data(
         dedent(
             """\
             [D]
@@ -112,7 +106,6 @@ def test_parse_input(tmp_path):
     """
         )
     )
-    stacks, moves = parse_input(path)
     assert stacks == Stacks([['Z', 'N'], ['M', 'C', 'D'], ['P']])
     assert list(moves) == [
         Move(1, 2, 1),
@@ -122,9 +115,8 @@ def test_parse_input(tmp_path):
     ]
 
 
-def test_part1(capsys, tmp_path):
-    path = tmp_path / 'input.txt'
-    path.write_text(
+def test_part1(capsys):
+    part1(
         dedent(
             """\
             [D]
@@ -139,15 +131,13 @@ def test_part1(capsys, tmp_path):
     """
         )
     )
-    part1(path)
     captured = capsys.readouterr()
     result = captured.out
     assert result == 'CMZ\n'
 
 
-def test_part2(capsys, tmp_path):
-    path = tmp_path / 'input.txt'
-    path.write_text(
+def test_part2(capsys):
+    part2(
         dedent(
             """\
             [D]
@@ -162,7 +152,6 @@ def test_part2(capsys, tmp_path):
     """
         )
     )
-    part2(path)
     captured = capsys.readouterr()
     result = captured.out
     assert result == 'MCD\n'

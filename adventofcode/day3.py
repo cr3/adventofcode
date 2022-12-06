@@ -2,15 +2,13 @@
 
 import string
 from itertools import zip_longest
-from pathlib import Path
 from typing import Iterable, Type, TypeVar
 
 import attr
+from aocd import get_data
 
-from adventofcode.day1 import split_lines
 
-
-INPUT = Path(__file__).parent / 'input.txt'
+DATA = get_data(day=3, year=2022)
 
 
 T = TypeVar('T', bound='Rucksack')
@@ -51,28 +49,25 @@ def parse_rucksacks(lines: Iterable[str]) -> Iterable[Rucksack]:
     return map(Rucksack.parse, lines)
 
 
-def parse_input1(path: Path) -> Iterable[Rucksack]:
+def parse_data1(data: str) -> Iterable[Rucksack]:
     """Parse a path into scores."""
-    with path.open() as stream:
-        lines = split_lines(stream)
-        return parse_rucksacks(lines)
+    return parse_rucksacks(data.splitlines())
 
 
-def parse_input2(path: Path) -> Iterable[Rucksack]:
+def parse_data2(data: str) -> Iterable[Rucksack]:
     """Parse a path into scores."""
-    with path.open() as stream:
-        lines = split_lines(stream)
-        groups = [lines] * 3
-        return (Rucksack(list(g)) for g in zip_longest(*groups))
+    lines = iter(data.splitlines())
+    groups = [lines] * 3
+    return (Rucksack(list(g)) for g in zip_longest(*groups))
 
 
-def part1(path: Path = INPUT) -> None:
-    rucksacks = parse_input1(path)
+def part1(data: str = DATA) -> None:
+    rucksacks = parse_data1(data)
     result = sum(r.priority for r in rucksacks)
     print(result)
 
 
-def part2(path: Path = INPUT) -> None:
-    rucksacks = parse_input2(path)
+def part2(data: str = DATA) -> None:
+    rucksacks = parse_data2(data)
     result = sum(r.priority for r in rucksacks)
     print(result)
