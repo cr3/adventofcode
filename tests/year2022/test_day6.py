@@ -1,8 +1,8 @@
-"""Unit tests for day 6."""
+"""Unit tests for year 2022, day 6."""
 
 import pytest
 
-from adventofcode.day6 import (
+from adventofcode.year2022.day6 import (
     parse_data,
     part1,
     part2,
@@ -37,15 +37,11 @@ def test_parse_message(data, expected):
     assert parse_data(data, 14) == expected
 
 
-def test_part1(capsys):
-    part1('zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw\n')
-    captured = capsys.readouterr()
-    result = captured.out
-    assert result == '11\n'
+def test_part1():
+    result = part1('zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw\n')
+    assert result == 11
 
 
-def test_part2(capsys):
-    part2('zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw\n')
-    captured = capsys.readouterr()
-    result = captured.out
-    assert result == '26\n'
+def test_part2():
+    result = part2('zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw\n')
+    assert result == 26

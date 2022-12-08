@@ -1,8 +1,8 @@
-"""Unit tests for day 3."""
+"""Unit tests for year 2022, day 3."""
 
 import pytest
 
-from adventofcode.day3 import (
+from adventofcode.year2022.day3 import (
     Rucksack,
     parse_data1,
     parse_data2,
@@ -108,8 +108,8 @@ def test_parse_data2():
     ]
 
 
-def test_part1(capsys):
-    part1(
+def test_part1():
+    result = part1(
         'vJrwpWtwJgWrhcsFMMfFFhFp\n'
         'jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL\n'
         'PmmdzqPrVvPwwTWBwg\n'
@@ -117,13 +117,11 @@ def test_part1(capsys):
         'ttgJtRGJQctTZtZT\n'
         'CrZsJsPPZsGzwwsLwLmpwMDw\n'
     )
-    captured = capsys.readouterr()
-    result = captured.out
-    assert result == '157\n'
+    assert result == 157
 
 
-def test_part2(capsys):
-    part2(
+def test_part2():
+    result = part2(
         'vJrwpWtwJgWrhcsFMMfFFhFp\n'
         'jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL\n'
         'PmmdzqPrVvPwwTWBwg\n'
@@ -131,6 +129,4 @@ def test_part2(capsys):
         'ttgJtRGJQctTZtZT\n'
         'CrZsJsPPZsGzwwsLwLmpwMDw\n'
     )
-    captured = capsys.readouterr()
-    result = captured.out
-    assert result == '70\n'
+    assert result == 70

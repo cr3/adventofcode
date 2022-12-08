@@ -87,13 +87,13 @@ def parse_data(data: str) -> Iterable[Round]:
     return parse_rounds(data.splitlines())
 
 
-def part1(data: str = DATA) -> None:
+def part1(data: str = DATA) -> int:
     rounds = parse_data(data)
     result = sum(calculate1(r.shape, r.response) for r in rounds)
-    print(result)
+    return result
 
 
-def part2(data: str = DATA) -> None:
+def part2(data: str = DATA) -> int:
     rounds = parse_data(data)
     result = sum(calculate2(r.shape, r.response) for r in rounds)
-    print(result)
+    return result

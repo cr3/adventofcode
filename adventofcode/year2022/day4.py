@@ -68,13 +68,13 @@ def parse_data(data: str) -> Iterable[Pair]:
     return map(Pair.parse, data.splitlines())
 
 
-def part1(data: str = DATA) -> None:
+def part1(data: str = DATA) -> int:
     pairs = parse_data(data)
     result = sum(pair.has_contains for pair in pairs)
-    print(result)
+    return result
 
 
-def part2(data: str = DATA) -> None:
+def part2(data: str = DATA) -> int:
     pairs = parse_data(data)
     result = sum(pair.has_overlap for pair in pairs)
-    print(result)
+    return result

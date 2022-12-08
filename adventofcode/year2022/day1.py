@@ -31,13 +31,13 @@ def parse_data(data: str) -> Iterable[int]:
     return sum_groups(groups)
 
 
-def part1(data: str = DATA) -> None:
+def part1(data: str = DATA) -> int:
     sums = parse_data(data)
     result = max(sums)
-    print(result)
+    return result
 
 
-def part2(data: str = DATA) -> None:
+def part2(data: str = DATA) -> int:
     sums = parse_data(data)
     result = sum(sorted(sums, reverse=True)[0:3])
-    print(result)
+    return result

@@ -1,8 +1,8 @@
-"""Unit tests for day 4."""
+"""Unit tests for year 2022, day 4."""
 
 import pytest
 
-from adventofcode.day4 import (
+from adventofcode.year2022.day4 import (
     Pair,
     Range,
     parse_data,
@@ -122,15 +122,11 @@ def test_parse_data():
     ]
 
 
-def test_part1(capsys):
-    part1('2-4,6-8\n2-3,4-5\n5-7,7-9\n2-8,3-7\n6-6,4-6\n2-6,4-8\n')
-    captured = capsys.readouterr()
-    result = captured.out
-    assert result == '2\n'
+def test_part1():
+    result = part1('2-4,6-8\n2-3,4-5\n5-7,7-9\n2-8,3-7\n6-6,4-6\n2-6,4-8\n')
+    assert result == 2
 
 
-def test_part2(capsys):
-    part2('2-4,6-8\n2-3,4-5\n5-7,7-9\n2-8,3-7\n6-6,4-6\n2-6,4-8\n')
-    captured = capsys.readouterr()
-    result = captured.out
-    assert result == '4\n'
+def test_part2():
+    result = part2('2-4,6-8\n2-3,4-5\n5-7,7-9\n2-8,3-7\n6-6,4-6\n2-6,4-8\n')
+    assert result == 4

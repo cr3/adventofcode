@@ -16,11 +16,11 @@ def parse_data(data: str, size) -> int:
     return 0
 
 
-def part1(data: str = DATA) -> None:
+def part1(data: str = DATA) -> int:
     result = parse_data(data, 4)
-    print(result)
+    return result
 
 
-def part2(data: str = DATA) -> None:
+def part2(data: str = DATA) -> int:
     result = parse_data(data, 14)
-    print(result)
+    return result

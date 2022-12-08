@@ -1,10 +1,10 @@
-"""Unit tests for day 5."""
+"""Unit tests for year 2022, day 5."""
 
 from textwrap import dedent
 
 import pytest
 
-from adventofcode.day5 import (
+from adventofcode.year2022.day5 import (
     Stacks,
     Move,
     parse_data,
@@ -115,8 +115,8 @@ def test_parse_data():
     ]
 
 
-def test_part1(capsys):
-    part1(
+def test_part1():
+    result = part1(
         dedent(
             """\
             [D]
@@ -131,13 +131,11 @@ def test_part1(capsys):
     """
         )
     )
-    captured = capsys.readouterr()
-    result = captured.out
-    assert result == 'CMZ\n'
+    assert result == 'CMZ'
 
 
-def test_part2(capsys):
-    part2(
+def test_part2():
+    result = part2(
         dedent(
             """\
             [D]
@@ -152,6 +150,4 @@ def test_part2(capsys):
     """
         )
     )
-    captured = capsys.readouterr()
-    result = captured.out
-    assert result == 'MCD\n'
+    assert result == 'MCD'

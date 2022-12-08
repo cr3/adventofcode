@@ -61,13 +61,13 @@ def parse_data2(data: str) -> Iterable[Rucksack]:
     return (Rucksack(list(g)) for g in zip_longest(*groups))
 
 
-def part1(data: str = DATA) -> None:
+def part1(data: str = DATA) -> int:
     rucksacks = parse_data1(data)
     result = sum(r.priority for r in rucksacks)
-    print(result)
+    return result
 
 
-def part2(data: str = DATA) -> None:
+def part2(data: str = DATA) -> int:
     rucksacks = parse_data2(data)
     result = sum(r.priority for r in rucksacks)
-    print(result)
+    return result

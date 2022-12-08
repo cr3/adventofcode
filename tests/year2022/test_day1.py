@@ -1,6 +1,6 @@
-"""Unit tests for day 1."""
+"""Unit tests for year 2022, day 1."""
 
-from adventofcode.day1 import (
+from adventofcode.year2022.day1 import (
     group_lines,
     parse_data,
     part1,
@@ -24,15 +24,11 @@ def test_parse_data():
     assert sums == [3, 7]
 
 
-def test_part1(capsys):
-    part1('1\n2\n\n3\n4\n')
-    captured = capsys.readouterr()
-    result = captured.out
-    assert result == '7\n'
+def test_part1():
+    result = part1('1\n2\n\n3\n4\n')
+    assert result == 7
 
 
-def test_part2(capsys):
-    part2('1\n\n2\n\n3\n\n4')
-    captured = capsys.readouterr()
-    result = captured.out
-    assert result == '9\n'
+def test_part2():
+    result = part2('1\n\n2\n\n3\n\n4')
+    assert result == 9

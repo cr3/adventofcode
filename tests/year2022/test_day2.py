@@ -1,8 +1,8 @@
-"""Unit tests for day 2."""
+"""Unit tests for year 2022, day 2."""
 
 import pytest
 
-from adventofcode.day2 import (
+from adventofcode.year2022.day2 import (
     Round,
     Shape,
     calculate1,
@@ -75,15 +75,11 @@ def test_parse_data():
     ]
 
 
-def test_part1(capsys):
-    part1('A Y\nB X\nC Z\n')
-    captured = capsys.readouterr()
-    result = captured.out
-    assert result == '15\n'
+def test_part1():
+    result = part1('A Y\nB X\nC Z\n')
+    assert result == 15
 
 
-def test_part2(capsys):
-    part2('A Y\nB X\nC Z\n')
-    captured = capsys.readouterr()
-    result = captured.out
-    assert result == '12\n'
+def test_part2():
+    result = part2('A Y\nB X\nC Z\n')
+    assert result == 12

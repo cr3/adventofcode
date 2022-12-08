@@ -69,7 +69,7 @@ class Stacks(Mapping):
 def parse_data(data: str) -> Tuple[Stacks, Iterable[Move]]:
     drawing = []
     lines = iter(data.splitlines())
-    for line in lines:
+    for line in lines:  # pragma: no cover
         if line == '':
             break
 
@@ -81,17 +81,17 @@ def parse_data(data: str) -> Tuple[Stacks, Iterable[Move]]:
     return stacks, moves
 
 
-def part1(data: str = DATA) -> None:
+def part1(data: str = DATA) -> str:
     stacks, moves = parse_data(data)
     for move in moves:
         stacks.rearrange(move)
     result = ''.join(stack[-1] for stack in stacks.values())
-    print(result)
+    return result
 
 
-def part2(data: str = DATA) -> None:
+def part2(data: str = DATA) -> str:
     stacks, moves = parse_data(data)
     for move in moves:
         stacks.rearrange_multiple(move)
     result = ''.join(stack[-1] for stack in stacks.values())
-    print(result)
+    return result

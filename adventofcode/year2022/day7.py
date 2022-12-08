@@ -78,7 +78,7 @@ def flatten(directory: Directory) -> Iterable[Directory]:
 
 def parse_data(data: str) -> Directory:
     root = cwd = Directory()
-    for line in data.splitlines():
+    for line in data.splitlines():  # pragma: no cover
         match line.split():
             case ['$', 'cd', name]:
                 cwd = cwd.cd(name)
@@ -92,18 +92,18 @@ def parse_data(data: str) -> Directory:
     return root
 
 
-def part1(data: str = DATA) -> None:
+def part1(data: str = DATA) -> int:
     root = parse_data(data)
     sizes = (d.size for d in flatten(root))
     result = sum(size for size in sizes if size <= 100000)
-    print(result)
+    return result
 
 
-def part2(data: str = DATA) -> None:
+def part2(data: str = DATA) -> int:
     root = parse_data(data)
     total_size = root.size
     unused_size = 70000000 - total_size
     required_size = 30000000 - unused_size
     sizes = (d.size for d in flatten(root))
     result = min(size for size in sizes if size > required_size)
-    print(result)
+    return result
