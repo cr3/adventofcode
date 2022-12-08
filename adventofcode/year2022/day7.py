@@ -1,13 +1,9 @@
 """Day 7."""
 
 from abc import ABC, abstractmethod
-from typing import Iterable
+from typing import Iterable, Iterator
 
 import attr
-from aocd import get_data
-
-
-DATA = get_data(day=7, year=2022)
 
 
 class Node(ABC):
@@ -24,25 +20,33 @@ class File(Node):
 
 
 @attr.s(frozen=True, slots=True, auto_attribs=True)
-class Directory(Node):
+class Directory(Node, Iterable[Node]):
 
     name: str = '/'
-    children: dict[str, Node] = attr.ib(factory=dict)
-    parent: 'Directory' = attr.ib(
-        default=attr.Factory(lambda self: self, takes_self=True)
+    nodes: dict[str, Node] = attr.ib(
+        default=attr.Factory(lambda self: {'..': self}, takes_self=True)
     )
 
+    def __iter__(self) -> Iterator[Node]:
+        return (node for name, node in self.nodes.items() if name != '..')
+
     @property
-    def root(self):
+    def parent(self) -> 'Directory':
+        parent = self.nodes['..']
+        assert isinstance(parent, Directory)
+        return parent
+
+    @property
+    def root(self) -> 'Directory':
         return self if self == self.parent else self.parent.root
 
     @property
-    def size(self):
-        return sum(child.size for child in self.children.values())
+    def size(self) -> int:
+        return sum(node.size for node in self)
 
     def mknode(self, name: str, node: Node) -> Node:
-        assert name not in self.children
-        self.children[name] = node
+        assert name not in self.nodes
+        self.nodes[name] = node
         return node
 
     def mkfile(self, name: str, size: int) -> File:
@@ -51,7 +55,7 @@ class Directory(Node):
         return node
 
     def mkdir(self, name: str) -> 'Directory':
-        node = self.mknode(name, Directory(name, parent=self))
+        node = self.mknode(name, Directory(name, {'..': self}))
         assert isinstance(node, Directory)
         return node
 
@@ -59,10 +63,7 @@ class Directory(Node):
         if name == '/':
             return self.root
 
-        if name == '..':
-            return self.parent
-
-        subdir = self.children[name]
+        subdir = self.nodes[name]
         assert isinstance(subdir, Directory)
 
         return subdir
@@ -70,9 +71,9 @@ class Directory(Node):
 
 def flatten(directory: Directory) -> Iterable[Directory]:
     dirs = [directory]
-    for child in directory.children.values():
-        if isinstance(child, Directory):
-            dirs.extend(flatten(child))
+    for node in directory:
+        if isinstance(node, Directory):
+            dirs.extend(flatten(node))
     return dirs
 
 
@@ -92,18 +93,18 @@ def parse_data(data: str) -> Directory:
     return root
 
 
-def part1(data: str = DATA) -> int:
+def part1(data: str) -> int:
     root = parse_data(data)
     sizes = (d.size for d in flatten(root))
-    result = sum(size for size in sizes if size <= 100000)
+    result = sum(size for size in sizes if size <= 100_000)
     return result
 
 
-def part2(data: str = DATA) -> int:
+def part2(data: str) -> int:
     root = parse_data(data)
     total_size = root.size
-    unused_size = 70000000 - total_size
-    required_size = 30000000 - unused_size
+    unused_size = 70_000_000 - total_size
+    required_size = 30_000_000 - unused_size
     sizes = (d.size for d in flatten(root))
     result = min(size for size in sizes if size > required_size)
     return result

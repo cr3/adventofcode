@@ -5,10 +5,6 @@ from collections.abc import Mapping
 from typing import Iterable, Tuple, Type, TypeVar
 
 import attr
-from aocd import get_data
-
-
-DATA = get_data(day=5, year=2022)
 
 
 MoveType = TypeVar('MoveType', bound='Move')
@@ -81,7 +77,7 @@ def parse_data(data: str) -> Tuple[Stacks, Iterable[Move]]:
     return stacks, moves
 
 
-def part1(data: str = DATA) -> str:
+def part1(data: str) -> str:
     stacks, moves = parse_data(data)
     for move in moves:
         stacks.rearrange(move)
@@ -89,7 +85,7 @@ def part1(data: str = DATA) -> str:
     return result
 
 
-def part2(data: str = DATA) -> str:
+def part2(data: str) -> str:
     stacks, moves = parse_data(data)
     for move in moves:
         stacks.rearrange_multiple(move)

@@ -1,4 +1,4 @@
-"""Unit tests for year 2022, day 7."""
+"""Unit tests for year 2023, day 7."""
 
 from textwrap import dedent
 
@@ -106,7 +106,7 @@ def test_part1():
     """
         )
     )
-    assert result == 95437
+    assert result == 95_437
 
 
 def test_part2():
@@ -139,4 +139,4 @@ def test_part2():
     """
         )
     )
-    assert result == 24933642
+    assert result == 24_933_642

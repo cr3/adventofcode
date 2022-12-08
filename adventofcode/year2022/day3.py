@@ -5,10 +5,6 @@ from itertools import zip_longest
 from typing import Iterable, Type, TypeVar
 
 import attr
-from aocd import get_data
-
-
-DATA = get_data(day=3, year=2022)
 
 
 T = TypeVar('T', bound='Rucksack')
@@ -61,13 +57,13 @@ def parse_data2(data: str) -> Iterable[Rucksack]:
     return (Rucksack(list(g)) for g in zip_longest(*groups))
 
 
-def part1(data: str = DATA) -> int:
+def part1(data: str) -> int:
     rucksacks = parse_data1(data)
     result = sum(r.priority for r in rucksacks)
     return result
 
 
-def part2(data: str = DATA) -> int:
+def part2(data: str) -> int:
     rucksacks = parse_data2(data)
     result = sum(r.priority for r in rucksacks)
     return result

@@ -5,11 +5,6 @@ import re
 import attr
 from typing import Iterable, Type, TypeVar
 
-from aocd import get_data
-
-
-DATA = get_data(day=4, year=2022)
-
 
 RangeType = TypeVar('RangeType', bound='Range')
 
@@ -68,13 +63,13 @@ def parse_data(data: str) -> Iterable[Pair]:
     return map(Pair.parse, data.splitlines())
 
 
-def part1(data: str = DATA) -> int:
+def part1(data: str) -> int:
     pairs = parse_data(data)
     result = sum(pair.has_contains for pair in pairs)
     return result
 
 
-def part2(data: str = DATA) -> int:
+def part2(data: str) -> int:
     pairs = parse_data(data)
     result = sum(pair.has_overlap for pair in pairs)
     return result

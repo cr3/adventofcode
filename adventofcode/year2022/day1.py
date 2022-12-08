@@ -5,11 +5,6 @@ from itertools import groupby
 from operator import eq
 from typing import Iterable
 
-from aocd import get_data
-
-
-DATA = get_data(day=1, year=2022)
-
 
 def group_lines(lines: Iterable[str], separator='') -> Iterable[list[str]]:
     """Group lines on separator."""
@@ -31,13 +26,13 @@ def parse_data(data: str) -> Iterable[int]:
     return sum_groups(groups)
 
 
-def part1(data: str = DATA) -> int:
+def part1(data: str) -> int:
     sums = parse_data(data)
     result = max(sums)
     return result
 
 
-def part2(data: str = DATA) -> int:
+def part2(data: str) -> int:
     sums = parse_data(data)
     result = sum(sorted(sums, reverse=True)[0:3])
     return result

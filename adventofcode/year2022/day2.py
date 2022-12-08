@@ -4,10 +4,6 @@ from enum import IntEnum
 from typing import Iterable, Type, TypeVar
 
 import attr
-from aocd import get_data
-
-
-DATA = get_data(day=2, year=2022)
 
 
 class Shape(IntEnum):
@@ -87,13 +83,13 @@ def parse_data(data: str) -> Iterable[Round]:
     return parse_rounds(data.splitlines())
 
 
-def part1(data: str = DATA) -> int:
+def part1(data: str) -> int:
     rounds = parse_data(data)
     result = sum(calculate1(r.shape, r.response) for r in rounds)
     return result
 
 
-def part2(data: str = DATA) -> int:
+def part2(data: str) -> int:
     rounds = parse_data(data)
     result = sum(calculate2(r.shape, r.response) for r in rounds)
     return result
