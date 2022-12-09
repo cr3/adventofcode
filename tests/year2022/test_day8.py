@@ -6,12 +6,13 @@ import pytest
 
 from adventofcode.year2022.day8 import (
     sum_views,
-    view_left,
     view_right,
+    view_left,
     view_row,
     view_rows,
     view_cols,
     view_matrix,
+    rate_row_item,
     parse_data,
     parse_line,
     part1,
@@ -33,9 +34,9 @@ def test_sum_views():
         ('35390', [True, True, False, True, False]),
     ],
 )
-def test_view_left(line, visibility):
+def test_view_right(line, visibility):
     row = parse_line(line)
-    assert view_left(row) == visibility
+    assert view_right(row) == visibility
 
 
 @pytest.mark.parametrize(
@@ -48,9 +49,9 @@ def test_view_left(line, visibility):
         ('35390', [False, False, False, True, True]),
     ],
 )
-def test_view_right(line, visibility):
+def test_view_left(line, visibility):
     row = parse_line(line)
-    assert view_right(row) == visibility
+    assert view_left(row) == visibility
 
 
 @pytest.mark.parametrize(
@@ -131,6 +132,20 @@ def test_view_matrix():
     ]
 
 
+@pytest.mark.parametrize(
+    'line, i, score',
+    [
+        ('25512', 2, 2),
+        ('35353', 1, 2),
+        ('33549', 2, 4),
+        ('35353', 3, 2),
+    ],
+)
+def test_rate_row_item(line, i, score):
+    row = parse_line(line)
+    assert rate_row_item(row, i) == score
+
+
 def test_part1():
     result = part1(
         dedent(
@@ -147,4 +162,15 @@ def test_part1():
 
 
 def test_part2():
-    assert part2('') == 0
+    result = part2(
+        dedent(
+            """\
+        30373
+        25512
+        65332
+        33549
+        35390
+    """
+        )
+    )
+    assert result == 8
