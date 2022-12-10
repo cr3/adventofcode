@@ -2,6 +2,7 @@
 
 from enum import Enum, auto
 from functools import reduce
+from itertools import accumulate
 from typing import Iterable, Type
 
 import attr
@@ -71,19 +72,26 @@ class Knot:
 @attr.s(frozen=True, slots=True, auto_attribs=True)
 class Rope:
 
-    H: Knot = Knot()
-    T: Knot = Knot()
-    history: list[Knot] = attr.ib(
-        default=attr.Factory(lambda self: [self.T], takes_self=True)
+    head: Knot = Knot()
+    tails: list[Knot] = attr.ib(factory=lambda: [Knot()])
+    seen: set[Knot] = attr.ib(
+        default=attr.Factory(lambda self: {self.tails[-1]}, takes_self=True)
     )
 
+    @property
+    def positions(self):
+        return len(self.seen)
+
     def move(self, direction: Direction):
-        """Move the `H` and follow `T`."""
-        H = self.H.move(direction)
-        T = self.T.follow(H)
-        if T != self.history[-1]:
-            self.history.append(T)
-        return attr.evolve(self, H=H, T=T)
+        """Move the `head` and follow `tails`."""
+        knots = accumulate(
+            [self.head.move(direction), *self.tails],
+            lambda a, b: b.follow(a),
+        )
+        head = next(knots)
+        tails = list(knots)
+        seen = self.seen.union({tails[-1]})
+        return attr.evolve(self, head=head, tails=tails, seen=seen)
 
 
 def follow_coordinate(src: int, dst: int):
@@ -98,8 +106,10 @@ def parse_data(data: str) -> Iterable[Move]:
 def part1(data: str) -> int:
     moves = parse_data(data)
     rope = reduce(lambda r, m: m.apply(r), moves, Rope())
-    return len(set(map(attr.astuple, rope.history)))
+    return rope.positions
 
 
 def part2(data: str) -> int:
-    return 0
+    moves = parse_data(data)
+    rope = reduce(lambda r, m: m.apply(r), moves, Rope(tails=[Knot()] * 9))
+    return rope.positions

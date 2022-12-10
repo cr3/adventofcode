@@ -29,19 +29,19 @@ def test_move_from_line(line, expected):
 @pytest.mark.parametrize(
     'move, expected',
     [
-        (Move(Direction.U, 1), Rope(Knot(0, 1), Knot(0, 0))),
-        (Move(Direction.D, 2), Rope(Knot(0, -2), Knot(0, -1))),
-        (Move(Direction.R, 3), Rope(Knot(3, 0), Knot(2, 0))),
-        (Move(Direction.L, 4), Rope(Knot(-4, 0), Knot(-3, 0))),
+        (Move(Direction.U, 1), Rope(Knot(0, 1), [Knot(0, 0)])),
+        (Move(Direction.D, 2), Rope(Knot(0, -2), [Knot(0, -1)])),
+        (Move(Direction.R, 3), Rope(Knot(3, 0), [Knot(2, 0)])),
+        (Move(Direction.L, 4), Rope(Knot(-4, 0), [Knot(-3, 0)])),
     ],
 )
 def test_move_apply(move, expected):
     rope = move.apply(Rope())
-    assert Rope(rope.H, rope.T) == expected
+    assert Rope(rope.head, rope.tails) == expected
 
 
 @pytest.mark.parametrize(
-    'H, T, expected',
+    'head, tail, expected',
     [
         (Knot(), Knot(1, 0), True),
         (Knot(), Knot(0, 1), True),
@@ -51,8 +51,8 @@ def test_move_apply(move, expected):
         (Knot(), Knot(1, 2), False),
     ],
 )
-def test_knot_touching(H, T, expected):
-    assert H.touching(T) is expected
+def test_knot_touching(head, tail, expected):
+    assert head.touching(tail) is expected
 
 
 @pytest.mark.parametrize(
@@ -82,7 +82,7 @@ def test_knot_follow(knot, other, expected):
 
 def test_rope_move():
     rope = Rope().move(Direction.U)
-    assert rope == Rope(Knot(0, 1), Knot(), [Knot()])
+    assert rope == Rope(Knot(0, 1), [Knot()], {Knot()})
 
 
 @pytest.mark.parametrize(
@@ -121,5 +121,18 @@ def test_part1():
 
 
 def test_part2():
-    result = part2('')
-    assert result == 0
+    result = part2(
+        dedent(
+            """\
+            R 5
+            U 8
+            L 8
+            D 3
+            R 17
+            D 10
+            L 25
+            U 20
+            """
+        )
+    )
+    assert result == 36
