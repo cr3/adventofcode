@@ -80,7 +80,7 @@ def flatten(directory: Directory) -> Iterable[Directory]:
 def parse_data(data: str) -> Directory:
     root = cwd = Directory()
     for line in data.splitlines():  # pragma: no cover
-        match line.split():
+        match line.split():  # noqa: E999
             case ['$', 'cd', name]:
                 cwd = cwd.cd(name)
             case ['$', 'ls']:

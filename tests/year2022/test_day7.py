@@ -1,4 +1,4 @@
-"""Unit tests for year 2023, day 7."""
+"""Unit tests for year 2022, day 7."""
 
 from textwrap import dedent
 
