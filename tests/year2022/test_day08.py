@@ -4,7 +4,7 @@ from textwrap import dedent
 
 import pytest
 
-from adventofcode.year2022.day8 import (
+from adventofcode.year2022.day08 import (
     sum_views,
     view_right,
     view_left,

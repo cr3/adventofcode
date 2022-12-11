@@ -1,6 +1,6 @@
 """Unit tests for year 2022, day 1."""
 
-from adventofcode.year2022.day1 import (
+from adventofcode.year2022.day01 import (
     group_lines,
     parse_data,
     part1,

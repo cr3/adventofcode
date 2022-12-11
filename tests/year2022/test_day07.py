@@ -4,7 +4,7 @@ from textwrap import dedent
 
 import pytest
 
-from adventofcode.year2022.day7 import (
+from adventofcode.year2022.day07 import (
     Directory,
     flatten,
     parse_data,

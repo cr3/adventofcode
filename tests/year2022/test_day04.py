@@ -2,7 +2,7 @@
 
 import pytest
 
-from adventofcode.year2022.day4 import (
+from adventofcode.year2022.day04 import (
     Pair,
     Range,
     parse_data,

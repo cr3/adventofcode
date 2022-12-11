@@ -4,7 +4,7 @@ from textwrap import dedent
 
 import pytest
 
-from adventofcode.year2022.day9 import (
+from adventofcode.year2022.day09 import (
     Direction,
     Move,
     Knot,

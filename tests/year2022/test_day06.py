@@ -2,7 +2,7 @@
 
 import pytest
 
-from adventofcode.year2022.day6 import (
+from adventofcode.year2022.day06 import (
     parse_data,
     part1,
     part2,

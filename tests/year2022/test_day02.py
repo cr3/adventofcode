@@ -2,7 +2,7 @@
 
 import pytest
 
-from adventofcode.year2022.day2 import (
+from adventofcode.year2022.day02 import (
     Round,
     Shape,
     calculate1,

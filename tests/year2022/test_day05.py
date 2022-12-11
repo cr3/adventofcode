@@ -4,7 +4,7 @@ from textwrap import dedent
 
 import pytest
 
-from adventofcode.year2022.day5 import (
+from adventofcode.year2022.day05 import (
     Stacks,
     Move,
     parse_data,

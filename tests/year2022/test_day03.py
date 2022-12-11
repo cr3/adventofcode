@@ -2,7 +2,7 @@
 
 import pytest
 
-from adventofcode.year2022.day3 import (
+from adventofcode.year2022.day03 import (
     Rucksack,
     parse_data1,
     parse_data2,
