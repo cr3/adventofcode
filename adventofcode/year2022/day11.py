@@ -1,6 +1,7 @@
 """Day 11."""
 
 import re
+import math
 from collections import UserList
 from functools import reduce
 from operator import mul
@@ -9,14 +10,25 @@ from typing import Callable
 import attr
 
 
+Transform = Callable[[int], int]
+
+
+def identity(level: int):
+    return level
+
+
+def normalize(level: int):
+    return int(level / 3)
+
+
 @attr.s(slots=True, auto_attribs=True)
 class Monkey:
 
     counter: int = 0
-    divisor: int = 3
+    divisor: int = 1
     items: list[int] = attr.ib(factory=list)
-    operation: Callable[[int], int] = lambda old: old
-    test: Callable[[int], int] = lambda level: -1
+    operation: Transform = identity
+    test: Transform = identity
 
     @classmethod
     def from_block(cls: type['Monkey'], block: str) -> 'Monkey':
@@ -31,23 +43,28 @@ class Monkey:
         )
         assert m
 
+        divisor = int(m['divisor'])
+
         def operation(old):
             return eval(m['expr'])
 
         def test(level):
-            return int(m['false'] if level % int(m['divisor']) else m['true'])
+            return int(m['false'] if level % divisor else m['true'])
 
         return cls(
             items=[int(i) for i in m['items'].split(', ')],
+            divisor=divisor,
             operation=operation,
             test=test,
         )
 
-    def inspect(self, monkeys: list['Monkey']) -> list['Monkey']:
+    def inspect(
+        self, monkeys: list['Monkey'], normalize: Transform = normalize
+    ) -> list['Monkey']:
         self.counter += len(self.items)
         while self.items:
             item = self.items.pop(0)
-            level = int(self.operation(item) / 3)
+            level = normalize(self.operation(item))
             n = self.test(level)
             monkeys[n].items.append(level)
 
@@ -56,14 +73,18 @@ class Monkey:
 
 class Monkeys(UserList):
     @property
+    def divisor(self):
+        return reduce(math.lcm, (m.divisor for m in self))
+
+    @property
     def level(self):
         counters = sorted((m.counter for m in self), reverse=True)
         return reduce(mul, counters[:2])
 
-    def inspect(self, rounds: int):
+    def inspect(self, rounds: int, normalize: Transform = normalize):
         for _ in range(rounds):
             for m in self:
-                m.inspect(self)
+                m.inspect(self, normalize)
 
         return self
 
@@ -78,5 +99,6 @@ def part1(data: str) -> int:
 
 
 def part2(data: str) -> int:
-    parse_data(data)
-    return 0
+    monkeys = parse_data(data)
+    monkeys.inspect(10_000, lambda level: level % monkeys.divisor)
+    return monkeys.level

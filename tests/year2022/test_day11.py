@@ -15,7 +15,7 @@ def test_monkey_init():
     assert monkey.counter == 0
     assert monkey.items == []
     assert monkey.operation(1) == 1
-    assert monkey.test(1) == -1
+    assert monkey.test(1) == 1
 
 
 def test_monkey_from_block():
@@ -65,12 +65,12 @@ def test_parse_data():
 
 def test_part1():
     result = part1(DATA)
-    assert result == 10605
+    assert result == 10_605
 
 
 def test_part2():
     result = part2(DATA)
-    assert result == 0
+    assert result == 2_713_310_158
 
 
 DATA = dedent(
