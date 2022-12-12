@@ -54,10 +54,8 @@ class StateDrawing(State):
         step = 40
         length = len(self.pixels)
         return ''.join(
-            map(
-                lambda i: ''.join(self.pixels[i : i + step]) + '\n',
-                range(0, length, step),
-            )
+            ''.join(self.pixels[i : i + step]) + '\n'  # noqa: E203
+            for i in range(0, length, step)
         )
 
     def tick(self) -> State:
