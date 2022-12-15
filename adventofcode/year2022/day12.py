@@ -80,26 +80,22 @@ class Heightmap:
                 if node.distance(other) == 1 and node.elevation(other) <= 1:
                     yield other
 
-    def shortest_path(self) -> int:
-        visited = set()
+    def shortest_path(self, start: str, end: str) -> int:
         distances = {n: sys.maxsize for n in self.nodes}
-        distances[self.start] = 0
+        distances[next(self.find(start))] = 0
 
         while True:
             distance, node = min(
-                (distance, node)
-                for node, distance in distances.items()
-                if node not in visited
+                (distance, node) for node, distance in distances.items()
             )
-
-            visited.add(node)
+            del distances[node]
 
             for other in self.neighbours(node):
-                if other not in visited:
+                if other in distances:
                     new_distance = distance + 1
                     if new_distance < distances[other]:
                         distances[other] = new_distance
-                        if other == self.end:
+                        if other.height == end:
                             return new_distance
 
 
@@ -109,9 +105,18 @@ def parse_data(data: str) -> Heightmap:
 
 def part1(data: str) -> int:
     heightmap = parse_data(data)
-    return heightmap.shortest_path()
+    return heightmap.shortest_path('S', 'E')
 
 
 def part2(data: str) -> int:
-    parse_data(data)
-    return 0
+    reversed_heights = dict(
+        [
+            ('S', 'E'),
+            ('E', 'S'),
+            ('\n', '\n'),
+            *zip(string.ascii_lowercase, reversed(string.ascii_lowercase)),
+        ]
+    )
+    reversed_data = ''.join(map(reversed_heights.get, data))  # type: ignore
+    heightmap = parse_data(reversed_data)
+    return heightmap.shortest_path('S', 'z')
