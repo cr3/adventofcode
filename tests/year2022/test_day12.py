@@ -7,108 +7,111 @@ import pytest
 
 from adventofcode.year2022.day12 import (
     Heightmap,
-    Position,
+    Node,
     part1,
     part2,
 )
 
 
 @pytest.mark.parametrize(
-    'position, other, expected',
+    'node, other, expected',
     [
-        (Position(0, 0, 'a'), Position(0, 0, 'a'), 0.0),
-        (Position(0, 1, 'a'), Position(0, 0, 'a'), 1.0),
-        (Position(0, 0, 'a'), Position(1, 0, 'a'), 1.0),
-        (Position(0, 0, 'a'), Position(1, 1, 'a'), math.sqrt(2)),
+        (Node(0, 0, 'a'), Node(0, 0, 'a'), 0.0),
+        (Node(0, 1, 'a'), Node(0, 0, 'a'), 1.0),
+        (Node(0, 0, 'a'), Node(1, 0, 'a'), 1.0),
+        (Node(0, 0, 'a'), Node(1, 1, 'a'), math.sqrt(2)),
     ],
 )
-def test_heigh_distance(position, other, expected):
-    result = position.distance(other)
+def test_heigh_distance(node, other, expected):
+    result = node.distance(other)
     assert result == expected
 
 
 @pytest.mark.parametrize(
-    'position, other, expected',
+    'node, other, expected',
     [
-        (Position(0, 0, 'a'), Position(0, 0, 'a'), 0),
-        (Position(0, 0, 'a'), Position(0, 0, 'S'), 0),
-        (Position(0, 0, 'S'), Position(0, 0, 'a'), 0),
-        (Position(0, 0, 'z'), Position(0, 0, 'E'), 0),
-        (Position(0, 0, 'E'), Position(0, 0, 'z'), 0),
-        (Position(0, 0, 'a'), Position(0, 0, 'b'), 1),
-        (Position(0, 0, 'b'), Position(0, 0, 'a'), 1),
+        (Node(0, 0, 'a'), Node(0, 0, 'a'), 0),
+        (Node(0, 0, 'a'), Node(0, 0, 'S'), 0),
+        (Node(0, 0, 'S'), Node(0, 0, 'a'), 0),
+        (Node(0, 0, 'z'), Node(0, 0, 'E'), 0),
+        (Node(0, 0, 'E'), Node(0, 0, 'z'), 0),
+        (Node(0, 0, 'a'), Node(0, 0, 'b'), 1),
+        (Node(0, 0, 'b'), Node(0, 0, 'a'), -1),
     ],
 )
-def test_heigh_elevation(position, other, expected):
-    result = position.elevation(other)
+def test_heigh_elevation(node, other, expected):
+    result = node.elevation(other)
     assert result == expected
 
 
 def test_heightmap_from_data():
     heightmap = Heightmap.from_data('ab\ncd\n')
-    assert heightmap == Heightmap([['a', 'b'], ['c', 'd']])
+    assert heightmap == Heightmap(
+        [
+            [Node(0, 0, 'a'), Node(0, 1, 'b')],
+            [Node(1, 0, 'c'), Node(1, 1, 'd')],
+        ]
+    )
 
 
 def test_heightmap_rows():
     heightmap = Heightmap.from_data('ab\ncd\n')
-    assert heightmap.rows == [['a', 'b'], ['c', 'd']]
-
-
-def test_heightmap_cols():
-    heightmap = Heightmap.from_data('ab\ncd\n')
-    assert heightmap.cols == [['a', 'c'], ['b', 'd']]
+    assert heightmap.rows == [
+        [Node(0, 0, 'a'), Node(0, 1, 'b')],
+        [Node(1, 0, 'c'), Node(1, 1, 'd')],
+    ]
 
 
 def test_heightmap_start():
-    position = Heightmap.from_data('Sb\ncE\n').start
-    assert position == Position(0, 0, 'S')
+    node = Heightmap.from_data('Sb\ncE\n').start
+    assert node == Node(0, 0, 'S')
 
 
 def test_heightmap_end():
-    position = Heightmap.from_data('Sb\ncE\n').end
-    assert position == Position(1, 1, 'E')
+    node = Heightmap.from_data('Sb\ncE\n').end
+    assert node == Node(1, 1, 'E')
 
 
 @pytest.mark.parametrize(
     'height, expected',
     [
-        ('b', [Position(0, 1, 'b')]),
-        ('S', [Position(0, 0, 'S')]),
+        ('b', [Node(0, 1, 'b')]),
+        ('S', [Node(0, 0, 'S')]),
         ('a', []),
         ('e', []),
     ],
 )
 def test_heightmap_find(height, expected):
     print(Heightmap.from_data('Sb\ncE\n'))
-    positions = list(Heightmap.from_data('Sb\ncE\n').find(height))
-    assert positions == expected
+    nodes = list(Heightmap.from_data('Sb\ncE\n').find(height))
+    assert nodes == expected
 
 
 @pytest.mark.parametrize(
-    'position, expected',
+    'node, expected',
     [
         (
-            Position(0, 0, 'S'),
+            Node(0, 0, 'S'),
             [
-                Position(0, 1, 'b'),
-                Position(1, 0, 'b'),
+                Node(0, 1, 'b'),
+                Node(1, 0, 'b'),
             ],
         ),
         (
-            Position(1, 1, 'a'),
+            Node(1, 1, 'a'),
             [
-                Position(0, 1, 'b'),
-                Position(1, 0, 'b'),
-                Position(1, 2, 'b'),
-                Position(2, 1, 'b'),
+                Node(0, 1, 'b'),
+                Node(1, 0, 'b'),
+                Node(1, 2, 'b'),
+                Node(2, 1, 'b'),
             ],
         ),
     ],
 )
-def test_heightmap_destinations(position, expected):
+def test_heightmap_neighbours(node, expected):
     heightmap = Heightmap.from_data('Sba\nbab\nabE\n')
-    destinations = list(heightmap.destinations(position))
-    assert destinations == expected
+    neighbours = list(heightmap.neighbours(node))
+    assert neighbours == expected
 
 
 def test_part1():
