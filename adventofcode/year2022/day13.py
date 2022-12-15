@@ -1,5 +1,7 @@
 """Day 13."""
 
+from functools import cmp_to_key, reduce
+from operator import mul
 from typing import Iterable, Union
 
 
@@ -7,21 +9,21 @@ Packet = list[Union[int, 'Packet']]
 Pair = tuple[Packet, Packet]
 
 
-def compare(left: Packet, right: Packet) -> bool | None:
+def compare(left: Packet, right: Packet) -> int:
     for i in range(max(len(left), len(right))):
         # If the left list runs out of items first,
         # the inputs are in the right order.
         try:
             lvalue = left[i]
         except IndexError:
-            return True
+            return -1
 
         # If the right list runs out of items first,
         # the inputs are not in the right order.
         try:
             rvalue = right[i]
         except IndexError:
-            return False
+            return 1
 
         # If both values are integers,
         # the lower integer should come first.
@@ -29,11 +31,11 @@ def compare(left: Packet, right: Packet) -> bool | None:
             # If the left integer is lower than the right integer,
             # the inputs are in the right order.
             if lvalue < rvalue:
-                return True
+                return -1
             # If the left integer is higher than the right integer,
             # the inputs are not in the right order.
             elif lvalue > rvalue:
-                return False
+                return 1
             # Otherwise, the inputs are the same integer;
             # continue checking the next part of the input.
             else:
@@ -49,10 +51,10 @@ def compare(left: Packet, right: Packet) -> bool | None:
 
         # then retry the comparison.
         result = compare(lvalue, rvalue)
-        if result is not None:
+        if result:
             return result
 
-    return None
+    return 0
 
 
 def parse_packet(line: str) -> Packet:
@@ -69,9 +71,14 @@ def parse_data(data: str) -> Iterable[Pair]:
 
 def part1(data: str) -> int:
     pairs = parse_data(data)
-    return sum(i for i, pair in enumerate(pairs, 1) if compare(*pair))
+    return sum(i for i, pair in enumerate(pairs, 1) if compare(*pair) < 0)
 
 
 def part2(data: str) -> int:
-    parse_data(data)
-    return 0
+    pairs = parse_data(data)
+    dividers = [[[2]], [[6]]]
+    packets = sorted(
+        list(sum(pairs, ())) + dividers,  # type: ignore
+        key=cmp_to_key(compare),  # type: ignore
+    )
+    return reduce(mul, list(map(lambda d: packets.index(d) + 1, dividers)), 1)

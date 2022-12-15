@@ -17,23 +17,23 @@ from adventofcode.year2022.day13 import (
 @pytest.mark.parametrize(
     'left, right, expected',
     [
-        ([1, 1, 3, 1, 1], [1, 1, 5, 1, 1], True),
-        ([[1], [2, 3, 4]], [[1], 4], True),
-        ([9], [[8, 7, 6]], False),
-        ([[4, 4], 4, 4], [[4, 4], 4, 4, 4], True),
-        ([7, 7, 7, 7], [7, 7, 7], False),
-        ([], [3], True),
-        ([[[]]], [[]], False),
+        ([1, 1, 3, 1, 1], [1, 1, 5, 1, 1], -1),
+        ([[1], [2, 3, 4]], [[1], 4], -1),
+        ([9], [[8, 7, 6]], 1),
+        ([[4, 4], 4, 4], [[4, 4], 4, 4, 4], -1),
+        ([7, 7, 7, 7], [7, 7, 7], 1),
+        ([], [3], -1),
+        ([[[]]], [[]], 1),
         (
             [1, [2, [3, [4, [5, 6, 7]]]], 8, 9],
             [1, [2, [3, [4, [5, 6, 0]]]], 8, 9],
-            False,
+            1,
         ),
     ],
 )
 def test_compare(left, right, expected):
     result = compare(left, right)
-    assert result is expected
+    assert result == expected
 
 
 @pytest.mark.parametrize(
@@ -73,7 +73,7 @@ def test_part1():
 
 def test_part2():
     result = part2(DATA)
-    assert result == 0
+    assert result == 140
 
 
 DATA = dedent(
