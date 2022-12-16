@@ -49,6 +49,12 @@ def test_sensor_overlap(sensor, y, expected):
     assert result == expected
 
 
+def test_sensor_outer_edges():
+    sensor = Sensor(Position(0, 0), Position(0, 2))
+    result = list(sensor.outer_edges)
+    assert len(result) == 12
+
+
 def test_parse_sensor():
     result = parse_sensor(
         'Sensor at x=2, y=18: closest beacon is at x=-2, y=15',
@@ -67,8 +73,13 @@ def test_part1():
 
 
 def test_part2():
-    result = part2(DATA)
-    assert result == 0
+    result = part2(DATA, 20)
+    assert result == 56_000_011
+
+
+def test_part2_error():
+    with pytest.raises(Exception):
+        part2('')
 
 
 DATA = dedent(

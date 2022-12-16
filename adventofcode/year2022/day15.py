@@ -1,7 +1,7 @@
 """Day 15."""
 
 import re
-from itertools import chain, tee
+from itertools import chain, starmap, tee
 from typing import Iterable
 
 import attr
@@ -26,6 +26,25 @@ class Sensor:
                 abs(self.spot.y - self.beacon.y),
             ]
         )
+
+    @property
+    def outer_edges(self) -> Iterable[Position]:
+        outer = self.distance + 1
+        upper = zip(
+            range(self.spot.x - outer, self.spot.x + outer + 1),
+            [
+                *range(self.spot.y, self.spot.y + outer),
+                *range(self.spot.y + outer, self.spot.y - 1, -1),
+            ],
+        )
+        lower = zip(
+            range(self.spot.x - outer + 1, self.spot.x + outer),
+            [
+                *range(self.spot.y - 1, self.spot.y - outer, -1),
+                *range(self.spot.y - outer, self.spot.y),
+            ],
+        )
+        return starmap(Position, [*upper, *lower])
 
     def coverage(self, y: int) -> Iterable[int]:
         segment = self.distance - abs(self.spot.y - y)
@@ -55,7 +74,7 @@ def parse_data(data: str) -> Iterable[Sensor]:
     return map(parse_sensor, data.splitlines())
 
 
-def part1(data: str, y: int = 2000000) -> int:
+def part1(data: str, y: int = 2_000_000) -> int:
     coverage_sensors, overlap_sensors = tee(parse_data(data))
     overlap = len(
         set(chain.from_iterable(s.overlap(y) for s in overlap_sensors))
@@ -66,6 +85,15 @@ def part1(data: str, y: int = 2000000) -> int:
     return coverage - overlap
 
 
-def part2(data: str) -> int:
-    parse_data(data)
-    return 0
+def part2(data: str, boundary: int = 4_000_000) -> int:
+    sensors = list(parse_data(data))
+    for sensor in sensors:
+        for position in sensor.outer_edges:
+            if 0 <= position.x <= boundary and 0 <= position.y <= boundary:
+                for s in sensors:
+                    if position.x in s.coverage(position.y):
+                        break
+                else:
+                    return position.x * 4_000_000 + position.y
+    else:
+        raise Exception(f'Beacon not found within {boundary}')
