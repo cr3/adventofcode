@@ -48,8 +48,11 @@ def drop_rock(rock: Rock, rocks: Rocks):
     while True:
         current = rock.step(rocks)
         if current == rock:
-            rocks.add(current)
-            return True
+            if current in rocks:
+                return False
+            else:
+                rocks.add(current)
+                return True
 
         if current.y == bottom:
             return False
@@ -86,5 +89,10 @@ def part1(data: str) -> int:
 
 
 def part2(data: str) -> int:
-    parse_data(data)
-    return 0
+    rocks = parse_data(data)
+    floor = max(map(attrgetter('y'), rocks)) + 2
+    rocks = rocks.union(
+        list(expand_rocks(Rock(500 - floor, floor), Rock(500 + floor, floor)))
+    )
+    drop = partial(drop_rock, rocks=rocks)
+    return sum(takewhile(truth, map(drop, repeat(Rock(500, 0)))))
