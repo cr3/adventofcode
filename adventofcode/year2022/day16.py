@@ -3,7 +3,7 @@
 import re
 from collections import UserDict
 from functools import cached_property
-from itertools import permutations
+from itertools import combinations, permutations
 from math import inf
 from typing import Iterable
 
@@ -89,5 +89,10 @@ def part1(data: str) -> int:
 
 
 def part2(data: str) -> int:
-    parse_data(data)
-    return 0
+    graph = parse_data(data)
+    answer = graph.travel('AA', 26, 0, 0, {})
+    return max(
+        v1 + v2
+        for (k1, v1), (k2, v2) in combinations(answer.items(), 2)
+        if not k1 & k2
+    )
