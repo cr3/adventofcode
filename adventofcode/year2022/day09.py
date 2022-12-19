@@ -3,7 +3,7 @@
 from enum import Enum, auto
 from functools import reduce
 from itertools import accumulate
-from typing import Iterable, Type
+from typing import Iterable
 
 import attr
 
@@ -24,7 +24,7 @@ class Move:
     steps: int
 
     @classmethod
-    def from_line(cls: Type['Move'], line: str) -> 'Move':
+    def from_line(cls: type['Move'], line: str) -> 'Move':
         """Parse a move from a `line`."""
         direction, steps = line.split()
         return cls(Direction[direction], int(steps))

@@ -2,7 +2,7 @@
 
 import string
 from itertools import zip_longest
-from typing import Iterable, Type, TypeVar
+from typing import Iterable, TypeVar
 
 import attr
 
@@ -16,7 +16,7 @@ class Rucksack:
     compartments: list[str]
 
     @classmethod
-    def parse(cls: Type[T], line: str) -> T:
+    def parse(cls: type[T], line: str) -> T:
         """Parse a line in two equal parts."""
         middle = int(len(line) / 2)
         return cls([line[:middle], line[middle:]])

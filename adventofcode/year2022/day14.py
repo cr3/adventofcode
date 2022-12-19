@@ -3,7 +3,7 @@
 from functools import partial
 from itertools import chain, pairwise, repeat, starmap, takewhile
 from operator import attrgetter, truth
-from typing import Iterable, Type
+from typing import Iterable
 
 import attr
 
@@ -14,7 +14,7 @@ class Rock:
     y: int
 
     @classmethod
-    def from_string(cls: Type['Rock'], string: str) -> 'Rock':
+    def from_string(cls: type['Rock'], string: str) -> 'Rock':
         return cls(*map(int, string.split(',')))  # type: ignore
 
     def with_y(self, y: int) -> 'Rock':

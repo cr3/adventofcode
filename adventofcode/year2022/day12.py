@@ -4,7 +4,7 @@ import sys
 import math
 import string
 from itertools import count
-from typing import Iterable, Iterator, Type
+from typing import Iterable, Iterator
 
 import attr
 
@@ -39,7 +39,7 @@ class Heightmap:
     rows: Matrix
 
     @classmethod
-    def from_data(cls: Type['Heightmap'], data: str) -> 'Heightmap':
+    def from_data(cls: type['Heightmap'], data: str) -> 'Heightmap':
         return cls(
             [
                 [

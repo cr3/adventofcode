@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 from functools import reduce
 from itertools import starmap
 from operator import mul
-from typing import Iterable, Type, TypeVar
+from typing import Iterable, TypeVar
 
 
 class State(ABC):
@@ -80,7 +80,7 @@ class Instruction(ABC):
         """Execute this instruction with the given X register."""
 
     @classmethod
-    def from_line(cls: Type['Instruction'], line: str) -> 'Instruction':
+    def from_line(cls: type['Instruction'], line: str) -> 'Instruction':
         match line.split():  # pragma: no cover
             case ['noop']:
                 return Noop()

@@ -2,7 +2,7 @@
 
 import re
 from collections.abc import Mapping
-from typing import Iterable, Tuple, Type, TypeVar
+from typing import Iterable, Tuple, TypeVar
 
 import attr
 
@@ -18,7 +18,7 @@ class Move:
     dst: int
 
     @classmethod
-    def parse(cls: Type[MoveType], procedure: str) -> MoveType:
+    def parse(cls: type[MoveType], procedure: str) -> MoveType:
         match = re.match(r'move (\d+) from (\d+) to (\d+)', procedure)
         return cls(*map(int, match.groups()))  # type: ignore
 
@@ -53,7 +53,7 @@ class Stacks(Mapping):
         self[move.dst].extend(crates)
 
     @classmethod
-    def parse(cls: Type[StacksType], drawing: str) -> StacksType:
+    def parse(cls: type[StacksType], drawing: str) -> StacksType:
         lines = filter(None, reversed(drawing.split('\n')))
         n = len(re.findall(r'\d+', next(lines)))
         pattern = re.compile(' ?'.join([r'(?:\[(\w)\]|   )?'] * n))

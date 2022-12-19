@@ -3,7 +3,7 @@
 import re
 
 import attr
-from typing import Iterable, Type, TypeVar
+from typing import Iterable, TypeVar
 
 
 RangeType = TypeVar('RangeType', bound='Range')
@@ -19,7 +19,7 @@ class Range:
         assert self.start <= self.stop
 
     @classmethod
-    def parse(cls: Type[RangeType], part: str) -> RangeType:
+    def parse(cls: type[RangeType], part: str) -> RangeType:
         match = re.match(r'(?P<start>\d+)-(?P<stop>\d+)', part)
         assert match is not None
 
@@ -44,7 +44,7 @@ class Pair:
     right: Range
 
     @classmethod
-    def parse(cls: Type[PairType], line: str) -> PairType:
+    def parse(cls: type[PairType], line: str) -> PairType:
         lpart, rpart = line.split(',')
         left = Range.parse(lpart)
         right = Range.parse(rpart)

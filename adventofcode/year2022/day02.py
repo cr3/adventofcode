@@ -1,7 +1,7 @@
 """Day 2."""
 
 from enum import IntEnum
-from typing import Iterable, Type, TypeVar
+from typing import Iterable, TypeVar
 
 import attr
 
@@ -24,7 +24,7 @@ class Round:
     response: Shape
 
     @classmethod
-    def parse(cls: Type[T], line: str) -> T:
+    def parse(cls: type[T], line: str) -> T:
         """Parse a line into a round."""
         shape, response = line.split()
         return cls(Shape[shape], Shape[response])
