@@ -1,69 +1,30 @@
 """Day 18."""
 
-from collections import Counter
-from functools import total_ordering
-from itertools import chain, groupby, product, starmap
-from operator import attrgetter
 from typing import Iterable
 
 import attr
 
 
 @attr.s(frozen=True, slots=True, auto_attribs=True)
-class Position:
+class Cube:
     x: int
     y: int
     z: int
 
-
-@total_ordering
-@attr.s(eq=False, frozen=True, slots=True, auto_attribs=True)
-class Face:
-    a: Position
-    b: Position
-    c: Position
-    d: Position
-
-    @property
-    def positions(self) -> Iterable[Position]:
-        return sorted(attr.astuple(self))
-
-    def __eq__(self, other) -> bool:
-        return self.positions == other.positions
-
-    def __lt__(self, other) -> bool:
-        return self.positions < other.positions
-
-    def __hash__(self) -> int:
-        return sum(map(hash, self.positions))
-
-
-@attr.s(frozen=True, slots=True, auto_attribs=True)
-class Cube:
-    position: Position
-
     @classmethod
     def from_line(cls: type['Cube'], line: str) -> 'Cube':
-        position = Position(*map(int, line.split(',')))  # type: ignore
-        return cls(position)
+        return cls(*map(int, line.split(',')))  # type: ignore
 
     @property
-    def vertices(self) -> Iterable[Position]:
-        p = self.position
-        return starmap(
-            Position, product([p.x - 1, p.x], [p.y - 1, p.y], [p.z - 1, p.z])
-        )
-
-    @property
-    def faces(self) -> Iterable[Face]:
-        return (
-            Face(*v)
-            for attr in ['x', 'y', 'z']
-            for _, v in groupby(
-                sorted(self.vertices, key=attrgetter(attr)),
-                key=attrgetter(attr),
-            )
-        )
+    def neighbours(self) -> list['Cube']:
+        return [
+            Cube(self.x - 1, self.y, self.z),
+            Cube(self.x + 1, self.y, self.z),
+            Cube(self.x, self.y - 1, self.z),
+            Cube(self.x, self.y + 1, self.z),
+            Cube(self.x, self.y, self.z - 1),
+            Cube(self.x, self.y, self.z + 1),
+        ]
 
 
 def parse_data(data: str) -> Iterable[Cube]:
@@ -71,10 +32,35 @@ def parse_data(data: str) -> Iterable[Cube]:
 
 
 def part1(data: str) -> int:
-    cubes = parse_data(data)
-    faces = Counter(chain.from_iterable(map(lambda c: c.faces, cubes)))
-    return sum(v for k, v in faces.items() if v == 1)
+    cubes = list(parse_data(data))
+    return 6 * len(cubes) - sum(
+        n in cubes for c in cubes for n in c.neighbours
+    )
 
 
 def part2(data: str) -> int:
-    return 0
+    cubes = list(parse_data(data))
+    min_x, min_y, min_z = (
+        min(map(lambda c: getattr(c, attr) - 1, cubes))
+        for attr in ['x', 'y', 'z']
+    )
+    max_x, max_y, max_z = (
+        max(map(lambda c: getattr(c, attr) + 1, cubes))
+        for attr in ['x', 'y', 'z']
+    )
+    outside = set()
+    queue = [Cube(min_x, min_y, min_z)]
+    while queue:
+        cube = queue.pop()
+        outside.add(cube)
+        for n in cube.neighbours:
+            if (
+                (min_x <= n.x <= max_x)
+                and (min_y <= n.y <= max_y)
+                and (min_z <= n.z <= max_z)
+                and n not in cubes
+                and n not in outside
+            ):
+                queue.append(n)
+
+    return sum(n in outside for c in cubes for n in c.neighbours)
