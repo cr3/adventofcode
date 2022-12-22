@@ -4,7 +4,9 @@ https://nirlipo.github.io/Width-Based-Planning-Resources/
 """
 
 import re
-from itertools import combinations
+from functools import reduce
+from itertools import combinations, islice
+from operator import mul
 from typing import Iterable, Literal, Optional
 
 import attr
@@ -167,5 +169,5 @@ def part1(data: str) -> int:
 
 
 def part2(data: str) -> int:
-    parse_data(data)
-    return 0
+    blueprints = parse_data(data)
+    return reduce(mul, (bp.evaluate(32) for bp in islice(blueprints, 3)), 1)

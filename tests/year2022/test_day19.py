@@ -89,7 +89,7 @@ def test_part1():
 
 def test_part2():
     result = part2(DATA)
-    assert result == 0
+    assert result == 3472
 
 
 DATA = dedent(
