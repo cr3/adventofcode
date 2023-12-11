@@ -1,22 +1,20 @@
 """Day 12."""
 
-import sys
 import math
 import string
+import sys
+from collections.abc import Iterable, Iterator
 from itertools import count
-from typing import Iterable, Iterator
 
 import attr
 
-
-HEIGHTS: dict[str, int] = dict(
-    [*zip(list(string.ascii_lowercase), count()), ('S', 0), ('E', 25)]
-)
+HEIGHTS: dict[str, int] = dict([
+    *zip(list(string.ascii_lowercase), count()), ('S', 0), ('E', 25)
+])
 
 
 @attr.s(frozen=True, slots=True, auto_attribs=True)
 class Node:
-
     row: int
     col: int
     height: str
@@ -35,20 +33,14 @@ Matrix = list[list[Node]]
 
 @attr.s(frozen=True, slots=True, auto_attribs=True)
 class Heightmap:
-
     rows: Matrix
 
     @classmethod
     def from_data(cls: type['Heightmap'], data: str) -> 'Heightmap':
-        return cls(
-            [
-                [
-                    Node(row, col, height)
-                    for col, height in enumerate(list(line))
-                ]
-                for row, line in enumerate(data.splitlines())
-            ]
-        )
+        return cls([
+            [Node(row, col, height) for col, height in enumerate(list(line))]
+            for row, line in enumerate(data.splitlines())
+        ])
 
     @property
     def nodes(self) -> Iterable[Node]:
@@ -109,14 +101,12 @@ def part1(data: str) -> int:
 
 
 def part2(data: str) -> int:
-    reversed_heights = dict(
-        [
-            ('S', 'E'),
-            ('E', 'S'),
-            ('\n', '\n'),
-            *zip(string.ascii_lowercase, reversed(string.ascii_lowercase)),
-        ]
-    )
+    reversed_heights = dict([
+        ('S', 'E'),
+        ('E', 'S'),
+        ('\n', '\n'),
+        *zip(string.ascii_lowercase, reversed(string.ascii_lowercase)),
+    ])
     reversed_data = ''.join(map(reversed_heights.get, data))  # type: ignore
     heightmap = parse_data(reversed_data)
     return heightmap.shortest_path('S', 'z')

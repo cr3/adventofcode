@@ -9,8 +9,8 @@ from adventofcode.year2022.day22 import (
     Cursor,
     Facing,
     Motion,
-    parse_line,
     parse_data,
+    parse_line,
     part1,
     part2,
 )

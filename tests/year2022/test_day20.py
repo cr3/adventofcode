@@ -6,12 +6,12 @@ import pytest
 
 from adventofcode.year2022.day20 import (
     Node,
-    values_to_nodes,
     node_to_values,
-    shorten_index,
     parse_data,
     part1,
     part2,
+    shorten_index,
+    values_to_nodes,
 )
 
 

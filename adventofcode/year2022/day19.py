@@ -4,13 +4,13 @@ https://nirlipo.github.io/Width-Based-Planning-Resources/
 """
 
 import re
+from collections.abc import Iterable
 from functools import reduce
 from itertools import combinations, islice
 from operator import mul
-from typing import Iterable, Literal, Optional
+from typing import Literal, Optional
 
 import attr
-
 
 Material = Literal['ore', 'clay', 'obsidian', 'geode']
 Bots = dict[Material, int]
@@ -25,7 +25,7 @@ class State:
     minutes: int
     bots: Bots = attr.ib(factory=dict)
     resources: Resources = attr.ib(factory=dict)
-    building: Optional[Material] = None
+    building: Material | None = None
 
     @property
     def atoms(self) -> Iterable[str]:
@@ -140,7 +140,8 @@ class Blueprint:
             else:
                 for material in materials:
                     if buy_state := next_state.buy(material, self.costs):
-                        if novel := buy_state.prune(atoms, width):
+                        novel = buy_state.prune(atoms, width)
+                        if novel:
                             queue.append(novel)
 
                 if novel := next_state.prune(atoms, width):

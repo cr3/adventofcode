@@ -53,7 +53,7 @@ def test_my_value(name, value, monkeys, expected):
 
 
 def test_my_value_error():
-    with pytest.raises(Exception):
+    with pytest.raises(AssertionError):
         my_value('foo', 2, 10, {'foo': '1'})
 
 

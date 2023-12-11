@@ -1,17 +1,16 @@
 """Day 4."""
 
 import re
+from collections.abc import Iterable
+from typing import TypeVar
 
 import attr
-from typing import Iterable, TypeVar
-
 
 RangeType = TypeVar('RangeType', bound='Range')
 
 
 @attr.s(frozen=True, slots=True, auto_attribs=True)
 class Range:
-
     start: int
     stop: int
 
@@ -39,7 +38,6 @@ PairType = TypeVar('PairType', bound='Pair')
 
 @attr.s(frozen=True, slots=True, auto_attribs=True)
 class Pair:
-
     left: Range
     right: Range
 

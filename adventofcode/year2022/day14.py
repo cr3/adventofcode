@@ -1,9 +1,9 @@
 """Day 14."""
 
+from collections.abc import Iterable
 from functools import partial
 from itertools import chain, pairwise, repeat, starmap, takewhile
 from operator import attrgetter, truth
-from typing import Iterable
 
 import attr
 

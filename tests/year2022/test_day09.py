@@ -6,8 +6,8 @@ import pytest
 
 from adventofcode.year2022.day09 import (
     Direction,
-    Move,
     Knot,
+    Move,
     Rope,
     follow_coordinate,
     part1,
@@ -103,9 +103,7 @@ def test_follow_coordinate(a, b, expected):
 
 
 def test_part1():
-    result = part1(
-        dedent(
-            """\
+    result = part1(dedent("""\
             R 4
             U 4
             L 3
@@ -114,16 +112,12 @@ def test_part1():
             D 1
             L 5
             R 2
-            """
-        )
-    )
+            """))
     assert result == 13
 
 
 def test_part2():
-    result = part2(
-        dedent(
-            """\
+    result = part2(dedent("""\
             R 5
             U 8
             L 8
@@ -132,7 +126,5 @@ def test_part2():
             D 10
             L 25
             U 20
-            """
-        )
-    )
+            """))
     assert result == 36

@@ -1,18 +1,17 @@
 """Day 3."""
 
 import string
+from collections.abc import Iterable
 from itertools import zip_longest
-from typing import Iterable, TypeVar
+from typing import TypeVar
 
 import attr
-
 
 T = TypeVar('T', bound='Rucksack')
 
 
 @attr.s(frozen=True, slots=True, auto_attribs=True)
 class Rucksack:
-
     compartments: list[str]
 
     @classmethod

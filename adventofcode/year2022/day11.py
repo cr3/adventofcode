@@ -1,14 +1,13 @@
 """Day 11."""
 
-import re
 import math
+import re
 from collections import UserList
+from collections.abc import Callable
 from functools import reduce
 from operator import mul
-from typing import Callable
 
 import attr
-
 
 Transform = Callable[[int], int]
 
@@ -23,7 +22,6 @@ def normalize(level: int):
 
 @attr.s(slots=True, auto_attribs=True)
 class Monkey:
-
     counter: int = 0
     divisor: int = 1
     items: list[int] = attr.ib(factory=list)

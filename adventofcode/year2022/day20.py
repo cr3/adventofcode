@@ -1,8 +1,9 @@
 """Day 20."""
 
+from collections.abc import Iterable
 from functools import partial
 from operator import mul
-from typing import Iterable, Optional
+from typing import Optional
 
 import attr
 

@@ -1,8 +1,8 @@
 """Day 15."""
 
 import re
+from collections.abc import Iterable
 from itertools import chain, starmap, tee
-from typing import Iterable
 
 import attr
 
@@ -20,12 +20,10 @@ class Sensor:
 
     @property
     def distance(self):
-        return sum(
-            [
-                abs(self.spot.x - self.beacon.x),
-                abs(self.spot.y - self.beacon.y),
-            ]
-        )
+        return sum([
+            abs(self.spot.x - self.beacon.x),
+            abs(self.spot.y - self.beacon.y),
+        ])
 
     @property
     def outer_edges(self) -> Iterable[Position]:
@@ -96,4 +94,4 @@ def part2(data: str, boundary: int = 4_000_000) -> int:
                 else:
                     return position.x * 4_000_000 + position.y
     else:
-        raise Exception(f'Beacon not found within {boundary}')
+        raise AssertionError(f'Beacon not found within {boundary}')

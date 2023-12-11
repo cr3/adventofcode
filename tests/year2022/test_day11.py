@@ -19,18 +19,14 @@ def test_monkey_init():
 
 
 def test_monkey_from_block():
-    monkey = Monkey.from_block(
-        dedent(
-            """\
+    monkey = Monkey.from_block(dedent("""\
             Monkey 0:
               Starting items: 79, 98
               Operation: new = old * 19
               Test: divisible by 23
                 If true: throw to monkey 2
                 If false: throw to monkey 3
-            """
-        )
-    )
+            """))
     assert monkey.items == [79, 98]
     assert monkey.operation(2) == 38
     assert monkey.test(22) == 3
@@ -73,8 +69,7 @@ def test_part2():
     assert result == 2_713_310_158
 
 
-DATA = dedent(
-    """\
+DATA = dedent("""\
     Monkey 0:
       Starting items: 79, 98
       Operation: new = old * 19
@@ -102,5 +97,4 @@ DATA = dedent(
       Test: divisible by 17
         If true: throw to monkey 0
         If false: throw to monkey 1
-    """
-)
+    """)

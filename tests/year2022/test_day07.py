@@ -43,9 +43,7 @@ def test_flatten(root, expected):
 
 
 def test_parse_data():
-    root = parse_data(
-        dedent(
-            """\
+    root = parse_data(dedent("""\
         $ cd /
         $ ls
         dir a
@@ -69,17 +67,13 @@ def test_parse_data():
         8033020 d.log
         5626152 d.ext
         7214296 k
-    """
-        )
-    )
+    """))
     names = [d.name for d in flatten(root)]
     assert names == ['/', 'a', 'e', 'd']
 
 
 def test_part1():
-    result = part1(
-        dedent(
-            """\
+    result = part1(dedent("""\
         $ cd /
         $ ls
         dir a
@@ -103,16 +97,12 @@ def test_part1():
         8033020 d.log
         5626152 d.ext
         7214296 k
-    """
-        )
-    )
+    """))
     assert result == 95_437
 
 
 def test_part2():
-    result = part2(
-        dedent(
-            """\
+    result = part2(dedent("""\
         $ cd /
         $ ls
         dir a
@@ -136,7 +126,5 @@ def test_part2():
         8033020 d.log
         5626152 d.ext
         7214296 k
-    """
-        )
-    )
+    """))
     assert result == 24_933_642

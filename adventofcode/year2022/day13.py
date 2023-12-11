@@ -1,9 +1,9 @@
 """Day 13."""
 
+from collections.abc import Iterable
 from functools import cmp_to_key, reduce
 from operator import mul
-from typing import Iterable, Union
-
+from typing import Union
 
 Packet = list[Union[int, 'Packet']]
 Pair = tuple[Packet, Packet]
@@ -81,4 +81,4 @@ def part2(data: str) -> int:
         list(sum(pairs, ())) + dividers,  # type: ignore
         key=cmp_to_key(compare),  # type: ignore
     )
-    return reduce(mul, list(map(lambda d: packets.index(d) + 1, dividers)), 1)
+    return reduce(mul, [packets.index(d) + 1 for d in dividers], 1)

@@ -1,10 +1,10 @@
 """Day 17."""
 
 import re
+from collections.abc import Iterator
 from enum import Enum
 from itertools import cycle, takewhile
 from textwrap import dedent
-from typing import Iterator
 
 import attr
 
@@ -54,13 +54,13 @@ class Cave:
         """Make the latest rock fall one unit if possible."""
         cols = list(map(''.join, zip(*self.rows)))
         if push_rock(cols, Jet.L):
-            self.rows[:] = [r for r in map(''.join, zip(*cols))]
+            self.rows[:] = list(map(''.join, zip(*cols)))
             if self.rows[-1] == self.space:
                 del self.rows[-1]
             return True
         else:
             cols = [c.replace('@', '#') for c in cols]
-            self.rows[:] = [r for r in map(''.join, zip(*cols))]
+            self.rows[:] = list(map(''.join, zip(*cols)))
             self.rock_counter += 1
             self.height_to_rocks[len(self.rows)] = self.rock_counter
             return False
@@ -98,11 +98,7 @@ def parse_jets(data: str) -> Iterator[Jet]:
 
 
 def parse_rocks() -> Iterator[list[str]]:
-    return cycle(
-        map(
-            lambda text: text.splitlines(),
-            dedent(
-                """\
+    return cycle(text.splitlines() for text in dedent("""\
                 ####
 
                 .#.
@@ -120,10 +116,7 @@ def parse_rocks() -> Iterator[list[str]]:
 
                 ##
                 ##
-                """
-            ).split('\n\n'),
-        )
-    )
+                """).split('\n\n'))
 
 
 def longest_common_rows(rows: list[str]) -> tuple[int, int]:

@@ -1,15 +1,14 @@
 """Day 9."""
 
+from collections.abc import Iterable
 from enum import Enum, auto
 from functools import reduce
 from itertools import accumulate
-from typing import Iterable
 
 import attr
 
 
 class Direction(Enum):
-
     U = auto()
     D = auto()
     R = auto()
@@ -37,7 +36,6 @@ class Move:
 
 @attr.s(frozen=True, slots=True, auto_attribs=True)
 class Knot:
-
     x: int = 0
     y: int = 0
 
@@ -71,7 +69,6 @@ class Knot:
 
 @attr.s(frozen=True, slots=True, auto_attribs=True)
 class Rope:
-
     head: Knot = Knot()
     tails: list[Knot] = attr.ib(factory=lambda: [Knot()])
     seen: set[Knot] = attr.ib(

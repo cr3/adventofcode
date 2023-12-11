@@ -1,18 +1,16 @@
 """Day 5."""
 
 import re
-from collections.abc import Mapping
-from typing import Iterable, Tuple, TypeVar
+from collections.abc import Iterable, Mapping
+from typing import TypeVar
 
 import attr
-
 
 MoveType = TypeVar('MoveType', bound='Move')
 
 
 @attr.s(frozen=True, slots=True, auto_attribs=True)
 class Move:
-
     n: int
     src: int
     dst: int
@@ -28,7 +26,6 @@ StacksType = TypeVar('StacksType', bound='Stacks')
 
 @attr.s(frozen=True, slots=True, auto_attribs=True)
 class Stacks(Mapping):
-
     stacks: list[list[str]]
 
     def __getitem__(self, index: int) -> list[str]:
@@ -62,7 +59,7 @@ class Stacks(Mapping):
         return cls(cols)
 
 
-def parse_data(data: str) -> Tuple[Stacks, Iterable[Move]]:
+def parse_data(data: str) -> tuple[Stacks, Iterable[Move]]:
     drawing = []
     lines = iter(data.splitlines())
     for line in lines:  # pragma: no cover

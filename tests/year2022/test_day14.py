@@ -30,11 +30,11 @@ def test_rock_from_string(string, expected):
     'rock, rocks, expected',
     [
         (Rock(500, 0), set(), Rock(500, 1)),
-        (Rock(500, 0), set([Rock(500, 1)]), Rock(499, 1)),
-        (Rock(500, 0), set([Rock(500, 1), Rock(499, 1)]), Rock(501, 1)),
+        (Rock(500, 0), {Rock(500, 1)}, Rock(499, 1)),
+        (Rock(500, 0), {Rock(500, 1), Rock(499, 1)}, Rock(501, 1)),
         (
             Rock(500, 0),
-            set([Rock(500, 1), Rock(499, 1), Rock(501, 1)]),
+            {Rock(500, 1), Rock(499, 1), Rock(501, 1)},
             Rock(500, 0),
         ),
     ],
@@ -47,7 +47,7 @@ def test_rock_step(rock, rocks, expected):
 @pytest.mark.parametrize(
     'rock, rocks, expected',
     [
-        (Rock(500, 0), set([Rock(500, 1)]), False),
+        (Rock(500, 0), {Rock(500, 1)}, False),
     ],
 )
 def test_drop_rock(rock, rocks, expected):
@@ -110,9 +110,7 @@ def test_part2():
     assert result == 93
 
 
-DATA = dedent(
-    """\
+DATA = dedent("""\
     498,4 -> 498,6 -> 496,6
     503,4 -> 502,4 -> 502,9 -> 494,9
-    """
-)
+    """)

@@ -11,7 +11,7 @@ def sum_views(*views: list[bool]):
 
 def view_right(row: list[int]) -> list[bool]:
     maxes = list(accumulate(row, max, initial=-1))
-    return list(starmap(lt, zip(maxes, maxes[1:])))
+    return list(starmap(lt, zip(maxes, maxes[1:])))  # noqa: RUF007
 
 
 def view_left(row: list[int]) -> list[bool]:
@@ -27,7 +27,7 @@ def view_rows(matrix: list[list[int]]) -> list[list[bool]]:
 
 
 def view_cols(matrix: list[list[int]]) -> list[list[bool]]:
-    return list(map(list, zip(*view_rows((zip(*matrix))))))  # type: ignore
+    return list(map(list, zip(*view_rows(zip(*matrix)))))  # type: ignore
 
 
 def view_matrix(matrix: list[list[int]]) -> list[list[bool]]:

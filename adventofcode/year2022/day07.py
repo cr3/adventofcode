@@ -1,7 +1,7 @@
 """Day 7."""
 
 from abc import ABC, abstractmethod
-from typing import Iterable, Iterator
+from collections.abc import Iterable, Iterator
 
 import attr
 
@@ -15,13 +15,11 @@ class Node(ABC):
 
 @attr.s(frozen=True, slots=True, auto_attribs=True)
 class File(Node):
-
     size: int
 
 
 @attr.s(frozen=True, slots=True, auto_attribs=True)
 class Directory(Node, Iterable[Node]):
-
     name: str = '/'
     nodes: dict[str, Node] = attr.ib(
         default=attr.Factory(lambda self: {'..': self}, takes_self=True)
@@ -80,7 +78,7 @@ def flatten(directory: Directory) -> Iterable[Directory]:
 def parse_data(data: str) -> Directory:
     root = cwd = Directory()
     for line in data.splitlines():  # pragma: no cover
-        match line.split():  # noqa: E999
+        match line.split():
             case ['$', 'cd', name]:
                 cwd = cwd.cd(name)
             case ['$', 'ls']:

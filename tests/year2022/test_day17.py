@@ -5,11 +5,11 @@ import pytest
 from adventofcode.year2022.day17 import (
     Cave,
     Jet,
-    push_rock,
     parse_jets,
     parse_rocks,
     part1,
     part2,
+    push_rock,
 )
 
 
@@ -53,11 +53,9 @@ def test_cave_add(cave, rock, rows):
     'cave, jet, rows, expected',
     [
         (
-            Cave(
-                [
-                    '..@@@..',
-                ]
-            ),
+            Cave([
+                '..@@@..',
+            ]),
             Jet.L,
             [
                 '.@@@...',
@@ -89,36 +87,30 @@ def test_cave_push(cave, jet, rows, expected):
     'cave, rows, expected',
     [
         (
-            Cave(
-                [
-                    '.......',
-                    '..@@@..',
-                ]
-            ),
+            Cave([
+                '.......',
+                '..@@@..',
+            ]),
             [
                 '..@@@..',
             ],
             True,
         ),
         (
-            Cave(
-                [
-                    '##...##',
-                    '..@@@..',
-                ]
-            ),
+            Cave([
+                '##...##',
+                '..@@@..',
+            ]),
             [
                 '##@@@##',
             ],
             True,
         ),
         (
-            Cave(
-                [
-                    '..#....',
-                    '..@@@..',
-                ]
-            ),
+            Cave([
+                '..#....',
+                '..@@@..',
+            ]),
             [
                 '..#....',
                 '..###..',

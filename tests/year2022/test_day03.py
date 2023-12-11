@@ -38,7 +38,7 @@ def test_rucksack_common(compartments, expected):
 
 def test_rucksack_common_error():
     with pytest.raises(AssertionError):
-        Rucksack(['ab', 'ab']).common
+        Rucksack(['ab', 'ab']).common  # noqa: B018
 
 
 @pytest.mark.parametrize(
@@ -91,20 +91,16 @@ def test_parse_data2():
         )
     )
     assert rounds == [
-        Rucksack(
-            [
-                'vJrwpWtwJgWrhcsFMMfFFhFp',
-                'jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL',
-                'PmmdzqPrVvPwwTWBwg',
-            ]
-        ),
-        Rucksack(
-            [
-                'wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn',
-                'ttgJtRGJQctTZtZT',
-                'CrZsJsPPZsGzwwsLwLmpwMDw',
-            ]
-        ),
+        Rucksack([
+            'vJrwpWtwJgWrhcsFMMfFFhFp',
+            'jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL',
+            'PmmdzqPrVvPwwTWBwg',
+        ]),
+        Rucksack([
+            'wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn',
+            'ttgJtRGJQctTZtZT',
+            'CrZsJsPPZsGzwwsLwLmpwMDw',
+        ]),
     ]
 
 

@@ -36,8 +36,7 @@ def test_part2():
     assert result == 'ECZUZALR'
 
 
-DATA = dedent(
-    """\
+DATA = dedent("""\
     addx 15
     addx -11
     addx 6
@@ -184,5 +183,4 @@ DATA = dedent(
     noop
     noop
     noop
-    """
-)
+    """)

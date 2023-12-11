@@ -2,14 +2,13 @@
 
 import re
 from enum import Enum, IntEnum
-from typing import Union
 
 import attr
 
 Facing = IntEnum('Facing', {'R': 0, 'D': 1, 'L': 2, 'U': 3})
 Motion = Enum('Motion', {'R': 1, 'L': -1})
 
-Move = Union[Motion, int]
+Move = Motion | int
 Moves = list[Move]
 
 
@@ -30,7 +29,7 @@ class Cursor:
             Facing.L: {'x': self.x - 1},
             Facing.U: {'y': self.y - 1},
         }[self.facing]
-        return attr.evolve(self, **kwargs)
+        return attr.evolve(self, **kwargs)  # type: ignore
 
     def mod(self, height: int, width: int) -> 'Cursor':
         x = self.x % width
@@ -63,7 +62,7 @@ class Board:
     def at(self, cursor) -> str:
         return self.lines[cursor.y][cursor.x]
 
-    def next(self, cursor: Cursor):
+    def next(self, cursor: Cursor) -> Cursor:  # noqa: A003
         next_cursor = cursor.move().mod(self.height, self.width)
         c = self.at(next_cursor)
         if c == '.':

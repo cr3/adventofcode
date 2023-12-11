@@ -2,10 +2,10 @@
 
 import re
 from collections import UserDict
+from collections.abc import Iterable
 from functools import cached_property
 from itertools import combinations, permutations
 from math import inf
-from typing import Iterable
 
 import attr
 

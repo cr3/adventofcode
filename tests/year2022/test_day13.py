@@ -50,14 +50,10 @@ def test_parse_packet(packet, expected):
 
 
 def test_parse_pair():
-    result = parse_pair(
-        dedent(
-            """\
+    result = parse_pair(dedent("""\
         [1,1,3,1,1]
         [1,1,5,1,1]
-        """
-        )
-    )
+        """))
     assert result == ([1, 1, 3, 1, 1], [1, 1, 5, 1, 1])
 
 
@@ -76,8 +72,7 @@ def test_part2():
     assert result == 140
 
 
-DATA = dedent(
-    """\
+DATA = dedent("""\
     [1,1,3,1,1]
     [1,1,5,1,1]
 
@@ -101,5 +96,4 @@ DATA = dedent(
 
     [1,[2,[3,[4,[5,6,7]]]],8,9]
     [1,[2,[3,[4,[5,6,0]]]],8,9]
-    """
-)
+    """)

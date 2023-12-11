@@ -1,9 +1,9 @@
 """Day 1."""
 
+from collections.abc import Iterable
 from functools import partial
 from itertools import groupby
 from operator import eq
-from typing import Iterable
 
 
 def group_lines(lines: Iterable[str], separator='') -> Iterable[list[str]]:

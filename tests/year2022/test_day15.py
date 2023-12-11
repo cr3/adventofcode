@@ -7,8 +7,8 @@ import pytest
 from adventofcode.year2022.day15 import (
     Position,
     Sensor,
-    parse_sensor,
     parse_data,
+    parse_sensor,
     part1,
     part2,
 )
@@ -78,12 +78,11 @@ def test_part2():
 
 
 def test_part2_error():
-    with pytest.raises(Exception):
+    with pytest.raises(AssertionError):
         part2('')
 
 
-DATA = dedent(
-    """\
+DATA = dedent("""\
     Sensor at x=2, y=18: closest beacon is at x=-2, y=15
     Sensor at x=9, y=16: closest beacon is at x=10, y=16
     Sensor at x=13, y=2: closest beacon is at x=15, y=3
@@ -98,5 +97,4 @@ DATA = dedent(
     Sensor at x=16, y=7: closest beacon is at x=15, y=3
     Sensor at x=14, y=3: closest beacon is at x=15, y=3
     Sensor at x=20, y=1: closest beacon is at x=15, y=3
-    """
-)
+    """)

@@ -2,7 +2,6 @@
 
 from collections import UserDict
 
-
 ME = 'humn'
 
 Monkeys = dict[str, str]
@@ -39,7 +38,7 @@ def my_value(monkey: str, value: int, step: int, monkeys: Monkeys) -> int:
 
         attempt1, result1 = attempt2, result2
 
-    raise Exception('Not found')
+    raise AssertionError('Not found')
 
 
 def parse_data(data: str) -> dict[str, str]:

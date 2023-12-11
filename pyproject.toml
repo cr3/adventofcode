@@ -1,0 +1,130 @@
+[tool.poetry]
+name = "adventofcode"
+version = "0.0.0"
+description = "adventofcode"
+authors = ["adventofcode"]
+readme = "README.rst"
+repository = "https://github.com/cr3/adventofcode"
+packages = [
+    { include = "adventofcode" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+advent-of-code-data = "^2.0.1"
+attrs = "^23.1.0"
+
+[tool.poetry.group.test.dependencies]
+coverage = "^7.2.3"
+pytest = "^7.2.2"
+
+[tool.poetry.group.check]
+optional = true
+
+[tool.poetry.group.check.dependencies]
+ruff = "^0.0.265"
+black = "^23.3.0"
+pre-commit = "^3.3.1"
+mypy = "^1.7.1"
+
+[tool.poetry.plugins."adventofcode.user"]
+cr3 = "adventofcode:solve"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 79
+target-version = ["py311"]
+preview = true
+skip-string-normalization = true
+
+[tool.ruff]
+target-version = "py311"
+line-length = 79
+fix = true
+select = [
+    # flake8-2020
+    "YTT",
+    # flake8-bandit
+    "S",
+    # flake8-bugbear
+    "B",
+    # flake8-builtins
+    "A",
+    # flake8-comprehensions
+    "C4",
+    # flake8-debugger
+    "T10",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+    # mccabe
+    "C90",
+    # pycodestyle
+    "E", "W",
+    # pyflakes
+    "F",
+    # pygrep-hooks
+    "PGH",
+    # pyupgrade
+    "UP",
+    # ruff
+    "RUF",
+    # tryceratops
+    "TRY",
+]
+ignore = [
+    # zip-without-explicit-strict
+    "B905",
+    # LineTooLong
+    "E501",
+    # DoNotAssignLambda
+    "E731",
+    # eval
+    "PGH001",
+    # blanket-type-ignore
+    "PGH003",
+    # assert
+    "S101",
+    # Create your own exception
+    "TRY002",
+    # Avoid specifying long messages outside the exception class
+    "TRY003",
+]
+
+[tool.ruff.per-file-ignores]
+"tests/*" = ["S101"]
+
+# Pytest options:
+#   https://docs.pytest.org/en/6.2.x/reference.html#ini-options-ref
+[tool.pytest.ini_options]
+addopts = [
+    "--doctest-modules",
+    "--doctest-glob=*.rst",
+]
+testpaths = [
+    "adventofcode",
+    "tests",
+]
+
+# Coverage options:
+#   https://coverage.readthedocs.io/en/latest/config.html
+[tool.coverage.paths]
+source = [
+    "adventofcode",
+    "*/*/site-packages",
+]
+
+[tool.coverage.report]
+fail_under = 100
+show_missing = true
+
+[tool.coverage.run]
+branch = true
+parallel = true
+source = [
+    "adventofcode",
+]

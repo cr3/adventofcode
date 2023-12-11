@@ -1,6 +1,6 @@
 """Day 18."""
 
-from typing import Iterable
+from collections.abc import Iterable
 
 import attr
 
@@ -41,12 +41,10 @@ def part1(data: str) -> int:
 def part2(data: str) -> int:
     cubes = list(parse_data(data))
     min_x, min_y, min_z = (
-        min(map(lambda c: getattr(c, attr) - 1, cubes))
-        for attr in ['x', 'y', 'z']
+        min(getattr(c, attr) - 1 for c in cubes) for attr in ['x', 'y', 'z']
     )
     max_x, max_y, max_z = (
-        max(map(lambda c: getattr(c, attr) + 1, cubes))
-        for attr in ['x', 'y', 'z']
+        max(getattr(c, attr) + 1 for c in cubes) for attr in ['x', 'y', 'z']
     )
     outside = set()
     queue = [Cube(min_x, min_y, min_z)]

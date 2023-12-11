@@ -46,12 +46,10 @@ def test_heigh_elevation(node, other, expected):
 
 def test_heightmap_from_data():
     heightmap = Heightmap.from_data('ab\ncd\n')
-    assert heightmap == Heightmap(
-        [
-            [Node(0, 0, 'a'), Node(0, 1, 'b')],
-            [Node(1, 0, 'c'), Node(1, 1, 'd')],
-        ]
-    )
+    assert heightmap == Heightmap([
+        [Node(0, 0, 'a'), Node(0, 1, 'b')],
+        [Node(1, 0, 'c'), Node(1, 1, 'd')],
+    ])
 
 
 def test_heightmap_rows():
@@ -124,12 +122,10 @@ def test_part2():
     assert result == 29
 
 
-DATA = dedent(
-    """\
+DATA = dedent("""\
     Sabqponm
     abcryxxl
     accszExk
     acctuvwj
     abdefghi
-    """
-)
+    """)

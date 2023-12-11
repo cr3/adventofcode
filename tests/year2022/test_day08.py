@@ -5,18 +5,18 @@ from textwrap import dedent
 import pytest
 
 from adventofcode.year2022.day08 import (
-    sum_views,
-    view_right,
-    view_left,
-    view_row,
-    view_rows,
-    view_cols,
-    view_matrix,
-    rate_row_item,
     parse_data,
     parse_line,
     part1,
     part2,
+    rate_row_item,
+    sum_views,
+    view_cols,
+    view_left,
+    view_matrix,
+    view_right,
+    view_row,
+    view_rows,
 )
 
 
@@ -70,17 +70,13 @@ def test_view_row(line, visibility):
 
 
 def test_view_rows():
-    matrix = parse_data(
-        dedent(
-            """\
+    matrix = parse_data(dedent("""\
         30373
         25512
         65332
         33549
         35390
-    """
-        )
-    )
+    """))
     assert view_rows(matrix) == [
         [True, False, False, True, True],
         [True, True, True, False, True],
@@ -91,17 +87,13 @@ def test_view_rows():
 
 
 def test_view_cols():
-    matrix = parse_data(
-        dedent(
-            """\
+    matrix = parse_data(dedent("""\
         30373
         25512
         65332
         33549
         35390
-    """
-        )
-    )
+    """))
     assert view_cols(matrix) == [
         [True, True, True, True, True],
         [False, True, True, False, False],
@@ -112,17 +104,13 @@ def test_view_cols():
 
 
 def test_view_matrix():
-    matrix = parse_data(
-        dedent(
-            """\
+    matrix = parse_data(dedent("""\
         30373
         25512
         65332
         33549
         35390
-    """
-        )
-    )
+    """))
     assert view_matrix(matrix) == [
         [True, True, True, True, True],
         [True, True, True, False, True],
@@ -147,30 +135,22 @@ def test_rate_row_item(line, i, score):
 
 
 def test_part1():
-    result = part1(
-        dedent(
-            """\
+    result = part1(dedent("""\
         30373
         25512
         65332
         33549
         35390
-    """
-        )
-    )
+    """))
     assert result == 21
 
 
 def test_part2():
-    result = part2(
-        dedent(
-            """\
+    result = part2(dedent("""\
         30373
         25512
         65332
         33549
         35390
-    """
-        )
-    )
+    """))
     assert result == 8

@@ -1,11 +1,13 @@
 """Day 10."""
 
-import attr
 from abc import ABC, abstractmethod
+from collections.abc import Iterable
 from functools import reduce
 from itertools import starmap
 from operator import mul
-from typing import Iterable, TypeVar
+from typing import TypeVar
+
+import attr
 
 
 class State(ABC):
@@ -20,7 +22,6 @@ class State(ABC):
 
 @attr.s(frozen=True, slots=True, auto_attribs=True)
 class StateStrength(State):
-
     x: int = 1
     cycle: int = 0
     strengths: dict[int, int] = attr.ib(factory=dict)
@@ -44,7 +45,6 @@ class StateStrength(State):
 
 @attr.s(frozen=True, slots=True, auto_attribs=True)
 class StateDrawing(State):
-
     x: int = 1
     cycle: int = 0
     pixels: list[str] = attr.ib(factory=lambda: ['.'] * 240)
@@ -54,7 +54,7 @@ class StateDrawing(State):
         step = 40
         length = len(self.pixels)
         return ''.join(
-            ''.join(self.pixels[i : i + step]) + '\n'  # noqa: E203
+            ''.join(self.pixels[i : i + step]) + '\n'
             for i in range(0, length, step)
         )
 
@@ -102,7 +102,6 @@ class Noop(Instruction):
 
 @attr.s(frozen=True, slots=True, auto_attribs=True)
 class Addx(Instruction):
-
     value: int
 
     def execute(self, state: T) -> T:

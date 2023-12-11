@@ -1,7 +1,8 @@
 """Day 2."""
 
+from collections.abc import Iterable
 from enum import IntEnum
-from typing import Iterable, TypeVar
+from typing import TypeVar
 
 import attr
 
@@ -19,7 +20,6 @@ T = TypeVar('T', bound='Round')
 
 @attr.s(frozen=True, slots=True, auto_attribs=True)
 class Round:
-
     shape: Shape
     response: Shape
 
