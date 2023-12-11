@@ -5,12 +5,12 @@ from collections.abc import Iterable
 from itertools import zip_longest
 from typing import TypeVar
 
-import attr
+from attrs import define
 
 T = TypeVar('T', bound='Rucksack')
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class Rucksack:
     compartments: list[str]
 

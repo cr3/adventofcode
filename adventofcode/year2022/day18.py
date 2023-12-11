@@ -2,10 +2,10 @@
 
 from collections.abc import Iterable
 
-import attr
+from attrs import define
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class Cube:
     x: int
     y: int

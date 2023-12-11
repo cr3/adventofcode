@@ -4,7 +4,7 @@ from collections.abc import Iterable
 from enum import IntEnum
 from typing import TypeVar
 
-import attr
+from attrs import define
 
 
 class Shape(IntEnum):
@@ -18,7 +18,7 @@ class Shape(IntEnum):
 T = TypeVar('T', bound='Round')
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class Round:
     shape: Shape
     response: Shape

@@ -4,12 +4,12 @@ import re
 from collections.abc import Iterable, Mapping
 from typing import TypeVar
 
-import attr
+from attrs import define
 
 MoveType = TypeVar('MoveType', bound='Move')
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class Move:
     n: int
     src: int
@@ -24,7 +24,7 @@ class Move:
 StacksType = TypeVar('StacksType', bound='Stacks')
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class Stacks(Mapping):
     stacks: list[list[str]]
 

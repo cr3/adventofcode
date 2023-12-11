@@ -7,7 +7,7 @@ from itertools import starmap
 from operator import mul
 from typing import TypeVar
 
-import attr
+from attrs import define, evolve, field
 
 
 class State(ABC):
@@ -20,11 +20,11 @@ class State(ABC):
         """Increase the register by the given `value`."""
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class StateStrength(State):
     x: int = 1
     cycle: int = 0
-    strengths: dict[int, int] = attr.ib(factory=dict)
+    strengths: dict[int, int] = field(factory=dict)
 
     @property
     def total_strength(self):
@@ -36,18 +36,18 @@ class StateStrength(State):
         if not (cycle - 20) % 40:
             strengths[cycle] = self.x
 
-        return attr.evolve(self, cycle=cycle, strengths=strengths)
+        return evolve(self, cycle=cycle, strengths=strengths)
 
     def increase(self, value: int) -> State:
         x = self.x + value
-        return attr.evolve(self, x=x)
+        return evolve(self, x=x)
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class StateDrawing(State):
     x: int = 1
     cycle: int = 0
-    pixels: list[str] = attr.ib(factory=lambda: ['.'] * 240)
+    pixels: list[str] = field(factory=lambda: ['.'] * 240)
 
     @property
     def crt(self):
@@ -64,11 +64,11 @@ class StateDrawing(State):
             self.pixels[self.cycle] = '#'
 
         cycle = self.cycle + 1
-        return attr.evolve(self, cycle=cycle)
+        return evolve(self, cycle=cycle)
 
     def increase(self, value: int) -> State:
         x = self.x + value
-        return attr.evolve(self, x=x)
+        return evolve(self, x=x)
 
 
 T = TypeVar('T', bound='State')
@@ -92,7 +92,7 @@ class Instruction(ABC):
                 raise Exception(f'Unsupported instruction: {instruction}')
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class Noop(Instruction):
     def execute(self, state: T) -> T:
         other = state.tick()
@@ -100,7 +100,7 @@ class Noop(Instruction):
         return other
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class Addx(Instruction):
     value: int
 

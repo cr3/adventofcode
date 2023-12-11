@@ -7,10 +7,10 @@ from functools import cached_property
 from itertools import combinations, permutations
 from math import inf
 
-import attr
+from attrs import define
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class Valve:
     name: str
     rate: int

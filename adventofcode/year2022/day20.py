@@ -5,10 +5,10 @@ from functools import partial
 from operator import mul
 from typing import Optional
 
-import attr
+from attrs import define
 
 
-@attr.s(repr=False, slots=True, auto_attribs=True)
+@define(repr=False)
 class Node:
     value: int
     left: Optional['Node'] = None

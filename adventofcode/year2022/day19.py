@@ -10,7 +10,7 @@ from itertools import combinations, islice
 from operator import mul
 from typing import Literal, Optional
 
-import attr
+from attrs import define, evolve, field
 
 Material = Literal['ore', 'clay', 'obsidian', 'geode']
 Bots = dict[Material, int]
@@ -20,11 +20,11 @@ Costs = dict[Material, Resources]
 MATERIALS: list[Material] = ['ore', 'clay', 'obsidian', 'geode']
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class State:
     minutes: int
-    bots: Bots = attr.ib(factory=dict)
-    resources: Resources = attr.ib(factory=dict)
+    bots: Bots = field(factory=dict)
+    resources: Resources = field(factory=dict)
     building: Material | None = None
 
     @property
@@ -49,7 +49,7 @@ class State:
         if self.building:
             bots[self.building] = bots.get(self.building, 0) + 1
 
-        return attr.evolve(
+        return evolve(
             self,
             minutes=minutes,
             bots=bots,
@@ -76,7 +76,7 @@ class State:
             **self.resources,
             **{k: self.resources[k] - cost[k] for k, v in cost.items()},
         }
-        return attr.evolve(self, resources=resources, building=name)
+        return evolve(self, resources=resources, building=name)
 
     def prune(self, atoms: set[int], width: int) -> Optional['State']:
         prune = True
@@ -92,7 +92,7 @@ class State:
         return self
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class Blueprint:
     num: int
     costs: Costs

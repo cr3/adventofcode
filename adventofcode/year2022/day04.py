@@ -4,12 +4,12 @@ import re
 from collections.abc import Iterable
 from typing import TypeVar
 
-import attr
+from attrs import define
 
 RangeType = TypeVar('RangeType', bound='Range')
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class Range:
     start: int
     stop: int
@@ -36,7 +36,7 @@ class Range:
 PairType = TypeVar('PairType', bound='Pair')
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class Pair:
     left: Range
     right: Range

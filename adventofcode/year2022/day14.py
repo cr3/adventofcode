@@ -5,10 +5,10 @@ from functools import partial
 from itertools import chain, pairwise, repeat, starmap, takewhile
 from operator import attrgetter, truth
 
-import attr
+from attrs import define, evolve
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class Rock:
     x: int
     y: int
@@ -18,10 +18,10 @@ class Rock:
         return cls(*map(int, string.split(',')))  # type: ignore
 
     def with_y(self, y: int) -> 'Rock':
-        return attr.evolve(self, y=y)
+        return evolve(self, y=y)
 
     def with_x(self, x: int) -> 'Rock':
-        return attr.evolve(self, x=x)
+        return evolve(self, x=x)
 
     def step(self, rocks: set['Rock']) -> 'Rock':
         # If the tile immediately below is blocked (by rock or sand), the
@@ -30,9 +30,9 @@ class Rock:
         # sand attempts to instead move diagonally one step down and to
         # the right.
         for other in [
-            attr.evolve(self, y=self.y + 1),
-            attr.evolve(self, x=self.x - 1, y=self.y + 1),
-            attr.evolve(self, x=self.x + 1, y=self.y + 1),
+            evolve(self, y=self.y + 1),
+            evolve(self, x=self.x - 1, y=self.y + 1),
+            evolve(self, x=self.x + 1, y=self.y + 1),
         ]:
             if other not in rocks:
                 return other

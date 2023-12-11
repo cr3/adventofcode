@@ -4,16 +4,16 @@ import re
 from collections.abc import Iterable
 from itertools import chain, starmap, tee
 
-import attr
+from attrs import define
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class Position:
     x: int
     y: int
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class Sensor:
     spot: Position
     beacon: Position

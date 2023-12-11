@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from collections.abc import Iterable, Iterator
 
-import attr
+from attrs import Factory, define, field
 
 
 class Node(ABC):
@@ -13,16 +13,16 @@ class Node(ABC):
         """Size of node."""
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class File(Node):
     size: int
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class Directory(Node, Iterable[Node]):
     name: str = '/'
-    nodes: dict[str, Node] = attr.ib(
-        default=attr.Factory(lambda self: {'..': self}, takes_self=True)
+    nodes: dict[str, Node] = field(
+        default=Factory(lambda self: {'..': self}, takes_self=True)
     )
 
     def __iter__(self) -> Iterator[Node]:

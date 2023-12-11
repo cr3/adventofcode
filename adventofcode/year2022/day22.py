@@ -3,7 +3,7 @@
 import re
 from enum import Enum, IntEnum
 
-import attr
+from attrs import define, evolve
 
 Facing = IntEnum('Facing', {'R': 0, 'D': 1, 'L': 2, 'U': 3})
 Motion = Enum('Motion', {'R': 1, 'L': -1})
@@ -12,7 +12,7 @@ Move = Motion | int
 Moves = list[Move]
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class Cursor:
     x: int = 0
     y: int = 0
@@ -20,7 +20,7 @@ class Cursor:
 
     def rotate(self, motion: Motion) -> 'Cursor':
         facing = (self.facing + motion.value) % len(Facing)
-        return attr.evolve(self, facing=Facing(facing))
+        return evolve(self, facing=Facing(facing))
 
     def move(self) -> 'Cursor':
         kwargs = {
@@ -29,15 +29,15 @@ class Cursor:
             Facing.L: {'x': self.x - 1},
             Facing.U: {'y': self.y - 1},
         }[self.facing]
-        return attr.evolve(self, **kwargs)  # type: ignore
+        return evolve(self, **kwargs)  # type: ignore
 
     def mod(self, height: int, width: int) -> 'Cursor':
         x = self.x % width
         y = self.y % height
-        return attr.evolve(self, x=x, y=y)
+        return evolve(self, x=x, y=y)
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class Board:
     lines: list[str]
 

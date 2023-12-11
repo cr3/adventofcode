@@ -5,7 +5,7 @@ from enum import Enum, auto
 from functools import reduce
 from itertools import accumulate
 
-import attr
+from attrs import Factory, astuple, define, evolve, field
 
 
 class Direction(Enum):
@@ -15,7 +15,7 @@ class Direction(Enum):
     L = auto()
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class Move:
     """A move consisting of a direction and steps."""
 
@@ -34,7 +34,7 @@ class Move:
         return rope
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class Knot:
     x: int = 0
     y: int = 0
@@ -44,7 +44,7 @@ class Knot:
 
     def move(self, direction: Direction) -> 'Knot':
         """Move this knot in the given `direction`."""
-        x, y = attr.astuple(self)
+        x, y = astuple(self)
         match direction:  # pragma: no cover
             case Direction.U:
                 y += 1
@@ -55,7 +55,7 @@ class Knot:
             case Direction.L:
                 x -= 1
 
-        return attr.evolve(self, x=x, y=y)
+        return evolve(self, x=x, y=y)
 
     def follow(self, other: 'Knot') -> 'Knot':
         """Follow some `other` knot if not touching this knot."""
@@ -64,15 +64,15 @@ class Knot:
 
         x = follow_coordinate(self.x, other.x)
         y = follow_coordinate(self.y, other.y)
-        return attr.evolve(self, x=x, y=y)
+        return evolve(self, x=x, y=y)
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class Rope:
     head: Knot = Knot()
-    tails: list[Knot] = attr.ib(factory=lambda: [Knot()])
-    seen: set[Knot] = attr.ib(
-        default=attr.Factory(lambda self: {self.tails[-1]}, takes_self=True)
+    tails: list[Knot] = field(factory=lambda: [Knot()])
+    seen: set[Knot] = field(
+        default=Factory(lambda self: {self.tails[-1]}, takes_self=True)
     )
 
     @property
@@ -88,7 +88,7 @@ class Rope:
         head = next(knots)
         tails = list(knots)
         seen = self.seen.union({tails[-1]})
-        return attr.evolve(self, head=head, tails=tails, seen=seen)
+        return evolve(self, head=head, tails=tails, seen=seen)
 
 
 def follow_coordinate(src: int, dst: int):

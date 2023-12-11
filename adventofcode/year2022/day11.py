@@ -7,7 +7,7 @@ from collections.abc import Callable
 from functools import reduce
 from operator import mul
 
-import attr
+from attrs import define, field
 
 Transform = Callable[[int], int]
 
@@ -20,11 +20,11 @@ def normalize(level: int):
     return int(level / 3)
 
 
-@attr.s(slots=True, auto_attribs=True)
+@define(slots=True)
 class Monkey:
     counter: int = 0
     divisor: int = 1
-    items: list[int] = attr.ib(factory=list)
+    items: list[int] = field(factory=list)
     operation: Transform = identity
     test: Transform = identity
 

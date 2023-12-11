@@ -5,15 +5,16 @@ import string
 import sys
 from collections.abc import Iterable, Iterator
 from itertools import count
+from operator import itemgetter
 
-import attr
+from attrs import define
 
 HEIGHTS: dict[str, int] = dict([
     *zip(list(string.ascii_lowercase), count()), ('S', 0), ('E', 25)
 ])
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class Node:
     row: int
     col: int
@@ -31,7 +32,7 @@ class Node:
 Matrix = list[list[Node]]
 
 
-@attr.s(frozen=True, slots=True, auto_attribs=True)
+@define(frozen=True)
 class Heightmap:
     rows: Matrix
 
@@ -78,7 +79,8 @@ class Heightmap:
 
         while True:
             distance, node = min(
-                (distance, node) for node, distance in distances.items()
+                ((distance, node) for node, distance in distances.items()),
+                key=itemgetter(0),
             )
             del distances[node]
 

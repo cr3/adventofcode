@@ -6,7 +6,7 @@ from enum import Enum
 from itertools import cycle, takewhile
 from textwrap import dedent
 
-import attr
+from attrs import define, field
 
 
 class Jet(Enum):
@@ -14,7 +14,7 @@ class Jet(Enum):
     R = '>'
 
 
-@attr.s(slots=True, auto_attribs=True)
+@define
 class Cave:
     """
     A cave is a list of rows that grows towards higher indices.
@@ -23,7 +23,7 @@ class Cave:
     rows: list[str]
     space: str = '.' * 7
     rock_counter: int = 0
-    height_to_rocks: dict[int, int] = attr.ib(factory=dict)
+    height_to_rocks: dict[int, int] = field(factory=dict)
 
     def add(self, rock: list[str]) -> 'Cave':
         """Add a rock to the top of the cave."""
