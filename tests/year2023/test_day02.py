@@ -41,6 +41,20 @@ def test_play_le(play, other, expected):
 
 
 @pytest.mark.parametrize(
+    'play, expected',
+    [
+        (Play(blue=1), 1),
+        (Play(blue=2), 2),
+        (Play(blue=2, green=3), 6),
+        (Play(blue=2, green=3, red=4), 24),
+    ],
+)
+def test_play_product(play, expected):
+    result = play.product
+    assert result is expected
+
+
+@pytest.mark.parametrize(
     'line, expected',
     [
         (
@@ -66,8 +80,27 @@ def test_game_from_line(line, expected):
     assert result == expected
 
 
+def test_game_from_line_error():
+    with pytest.raises(ValueError):
+        Game.from_line("")
+
+
 @pytest.mark.parametrize(
-    'game, other, expected',
+    'game, expected',
+    [
+        (
+            Game(1, [Play(blue=1)]),
+            Play(blue=1),
+        ),
+    ],
+)
+def test_game_minimum(game, expected):
+    result = game.minimum
+    assert result == expected
+
+
+@pytest.mark.parametrize(
+    'game, limit, expected',
     [
         (Game(1, [Play()]), Play(blue=1), True),
         (Game(1, [Play(blue=1)]), Play(blue=1), True),
@@ -75,8 +108,8 @@ def test_game_from_line(line, expected):
         (Game(1, [Play(), Play(blue=2)]), Play(blue=1), False),
     ],
 )
-def test_game_le(game, other, expected):
-    result = game <= other
+def test_game_is_within(game, limit, expected):
+    result = game.is_within(limit)
     assert result is expected
 
 
@@ -92,5 +125,11 @@ def test_part1():
 
 
 def test_part2():
-    result = part2('')
-    assert result == 0
+    result = part2(dedent('''\
+        Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+        Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
+        Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
+        Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
+        Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
+        '''))
+    assert result == 2286

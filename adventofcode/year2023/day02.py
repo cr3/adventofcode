@@ -1,6 +1,7 @@
 """Day 2."""
 
 import re
+from functools import reduce
 
 from attrs import define
 
@@ -18,6 +19,10 @@ class Play:
             for m in re.finditer(r'(?P<v>\d+) (?P<k>\w+)', string)
         }
         return cls(**kwargs)
+
+    @property
+    def product(self):
+        return (self.blue or 1) * (self.green or 1) * (self.red or 1)
 
     def __le__(self, other: 'Play') -> bool:
         return (
@@ -41,6 +46,18 @@ class Game:
 
         raise ValueError(f'Unexpected line: {line}')
 
+    @property
+    def minimum(self):
+        return reduce(
+            lambda a, b: Play(
+                blue=max(a.blue, b.blue),
+                green=max(a.green, b.green),
+                red=max(a.red, b.red),
+            ),
+            self.plays,
+            Play(),
+        )
+
     def is_within(self, limit: Play) -> bool:
         return all(play <= limit for play in self.plays)
 
@@ -54,4 +71,6 @@ def part1(data: str) -> int:
 
 
 def part2(data: str) -> int:
-    return 0
+    games = [Game.from_line(line) for line in data.splitlines()]
+    total = sum(g.minimum.product for g in games)
+    return total
