@@ -13,6 +13,20 @@ from adventofcode.year2023.day03 import (
 
 
 @pytest.mark.parametrize(
+    'number, x, y, expected',
+    [
+        (Number(0, 1, 2, 0), 0, 0, False),
+        (Number(0, 1, 2, 0), 1, 0, True),
+        (Number(0, 1, 2, 0), 2, 0, True),
+        (Number(0, 1, 2, 0), 3, 0, False),
+    ],
+)
+def test_number_is_within(number, x, y, expected):
+    result = number.is_within(x, y)
+    assert result == expected
+
+
+@pytest.mark.parametrize(
     'data, expected',
     [
         ('123...', [Number(123, 0, 2, 0)]),
@@ -61,5 +75,16 @@ def test_part1():
 
 
 def test_part2():
-    result = part2('')
-    assert result == 0
+    result = part2(dedent('''\
+        467..114..
+        ...*......
+        ..35..633.
+        ......#...
+        617*......
+        .....+.58.
+        ..592.....
+        ......755.
+        ...$.*....
+        .664.598..
+        '''))
+    assert result == 467835
