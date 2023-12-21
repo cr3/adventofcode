@@ -7,6 +7,8 @@ import pytest
 from adventofcode.year2023.day05 import (
     Map,
     Range,
+    SeedRange,
+    SeedRanges,
     Seeds,
     part1,
     part2,
@@ -23,6 +25,32 @@ from adventofcode.year2023.day05 import (
 def test_range_from_string(string, expected):
     r = Range.from_string(string)
     assert r == expected
+
+
+@pytest.mark.parametrize(
+    'r, expected',
+    [
+        (Range(0, 0, 1), 1),
+        (Range(0, 1, 1), 1),
+        (Range(0, 1, 2), 2),
+    ],
+)
+def test_range_destination_end(r, expected):
+    result = r.destination_end
+    assert result is expected
+
+
+@pytest.mark.parametrize(
+    'r, expected',
+    [
+        (Range(0, 0, 1), 1),
+        (Range(1, 0, 1), 1),
+        (Range(1, 0, 2), 2),
+    ],
+)
+def test_range_source_end(r, expected):
+    result = r.source_end
+    assert result is expected
 
 
 @pytest.mark.parametrize(
@@ -53,9 +81,16 @@ def test_map_from_string(string, expected):
     assert m == expected
 
 
-def test_map_from_string_error():
+@pytest.mark.parametrize(
+    'string',
+    [
+        '',
+        'header map:\n',
+    ],
+)
+def test_map_from_string_error(string):
     with pytest.raises(ValueError):
-        Map.from_string("")
+        Map.from_string(string)
 
 
 @pytest.mark.parametrize(
@@ -87,6 +122,49 @@ def test_seeds_from_string(string, expected):
 def test_seeds_from_string_error():
     with pytest.raises(ValueError):
         Seeds.from_string("")
+
+
+@pytest.mark.parametrize(
+    'seed_range, expected',
+    [
+        (SeedRange(0, 1), [0]),
+        (SeedRange(0, 2), [0, 1]),
+    ],
+)
+def test_seed_range_iter(seed_range, expected):
+    result = list(seed_range)
+    assert result == expected
+
+
+@pytest.mark.parametrize(
+    'string, expected',
+    [
+        ('seeds: ', SeedRanges([])),
+        ('seeds: 0 1', SeedRanges([SeedRange(0, 1)])),
+        ('seeds: 0 1 2 3', SeedRanges([SeedRange(0, 1), SeedRange(2, 3)])),
+    ],
+)
+def test_seed_ranges_from_string(string, expected):
+    m = SeedRanges.from_string(string)
+    assert m == expected
+
+
+def test_seed_ranges_from_string_error():
+    with pytest.raises(ValueError):
+        SeedRanges.from_string("")
+
+
+@pytest.mark.parametrize(
+    'seed_ranges, expected',
+    [
+        (SeedRanges([]), []),
+        (SeedRanges([SeedRange(0, 1)]), [0]),
+        (SeedRanges([SeedRange(0, 1), SeedRange(2, 3)]), [0, 2, 3, 4]),
+    ],
+)
+def test_seed_ranges_iter(seed_ranges, expected):
+    result = list(seed_ranges)
+    assert result == expected
 
 
 def test_part1():
@@ -164,4 +242,4 @@ def test_part2():
         60 56 37
         56 93 4
         '''))
-    assert result == 0
+    assert result == 46
