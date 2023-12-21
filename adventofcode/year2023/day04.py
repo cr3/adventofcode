@@ -12,11 +12,12 @@ class Numbers(set):
         return cls(set(map(int, string.split())))
 
 
-@define(frozen=True)
+@define
 class Card:
     num: int
     winning: Numbers
     chosen: Numbers
+    count: int = 1
 
     @classmethod
     def from_string(cls, string: str) -> 'Card':
@@ -46,4 +47,10 @@ def part1(data: str) -> int:
 
 
 def part2(data: str) -> int:
-    return 0
+    cards = list(map(Card.from_string, data.splitlines()))
+    for card in cards:
+        for i, _ in enumerate(card.matches(), start=card.num):
+            cards[i].count += card.count
+
+    total = sum(c.count for c in cards)
+    return total
