@@ -6,7 +6,6 @@ from attrs import define
 
 
 class Numbers(set):
-
     @classmethod
     def from_string(cls, string: str) -> 'Numbers':
         return cls(set(map(int, string.split())))

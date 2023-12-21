@@ -12,57 +12,72 @@ from adventofcode.year2023.day04 import (
 )
 
 
-@pytest.mark.parametrize('string, expected', [
-    ('', Numbers(set())),
-    ('1', Numbers({1})),
-    ('1 2', Numbers({1, 2})),
-    ('1 2 3', Numbers({1, 2, 3})),
-])
+@pytest.mark.parametrize(
+    'string, expected',
+    [
+        ('', Numbers(set())),
+        ('1', Numbers({1})),
+        ('1 2', Numbers({1, 2})),
+        ('1 2 3', Numbers({1, 2, 3})),
+    ],
+)
 def test_numbers_from_string(string, expected):
     result = Numbers.from_string(string)
     assert result == expected
 
 
-@pytest.mark.parametrize('string, expected', [
-    ('Card 1: 2 | 3', Card(1, Numbers({2}), Numbers({3}))),
-    ('Card 1: 20 | 300', Card(1, Numbers({20}), Numbers({300}))),
-    ('Card 1: 2 3 | 3 4', Card(1, Numbers({2, 3}), Numbers({3, 4}))),
-])
+@pytest.mark.parametrize(
+    'string, expected',
+    [
+        ('Card 1: 2 | 3', Card(1, Numbers({2}), Numbers({3}))),
+        ('Card 1: 20 | 300', Card(1, Numbers({20}), Numbers({300}))),
+        ('Card 1: 2 3 | 3 4', Card(1, Numbers({2, 3}), Numbers({3, 4}))),
+    ],
+)
 def test_card_from_string(string, expected):
     result = Card.from_string(string)
     assert result == expected
 
 
-@pytest.mark.parametrize('string', [
-    "",
-    "Card: 2 | 3",
-    "Card 1: 2",
-    "Card 1: | 3",
-])
+@pytest.mark.parametrize(
+    'string',
+    [
+        "",
+        "Card: 2 | 3",
+        "Card 1: 2",
+        "Card 1: | 3",
+    ],
+)
 def test_card_from_string_error(string):
     with pytest.raises(ValueError):
         Card.from_string(string)
 
 
-@pytest.mark.parametrize('card, expected', [
-    (Card(1, set(), set()), set()),
-    (Card(1, {1}, {2}), set()),
-    (Card(1, {1}, {1}), {1}),
-    (Card(1, {1, 2}, {1}), {1}),
-    (Card(1, {1, 2}, {2}), {2}),
-    (Card(1, {1, 2}, {1, 2}), {1, 2}),
-])
+@pytest.mark.parametrize(
+    'card, expected',
+    [
+        (Card(1, set(), set()), set()),
+        (Card(1, {1}, {2}), set()),
+        (Card(1, {1}, {1}), {1}),
+        (Card(1, {1, 2}, {1}), {1}),
+        (Card(1, {1, 2}, {2}), {2}),
+        (Card(1, {1, 2}, {1, 2}), {1, 2}),
+    ],
+)
 def test_card_matches(card, expected):
     result = card.matches()
     assert result == expected
 
 
-@pytest.mark.parametrize('card, expected', [
-    (Card(1, {1}, {}), 0),
-    (Card(1, {1}, {1}), 1),
-    (Card(1, {1, 2}, {1, 2}), 2),
-    (Card(1, {1, 2, 3}, {1, 2, 3}), 4),
-])
+@pytest.mark.parametrize(
+    'card, expected',
+    [
+        (Card(1, {1}, {}), 0),
+        (Card(1, {1}, {1}), 1),
+        (Card(1, {1, 2}, {1, 2}), 2),
+        (Card(1, {1, 2, 3}, {1, 2, 3}), 4),
+    ],
+)
 def test_card_points(card, expected):
     result = card.points()
     assert result == expected
