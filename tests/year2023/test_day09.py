@@ -64,8 +64,8 @@ def test_history_is_zero(history, expected):
         (History([10, 13, 16, 21, 30, 45]), 68),
     ],
 )
-def test_history_predict(history, expected):
-    result = history.predict()
+def test_history_forward(history, expected):
+    result = history.forward()
     assert result == expected
 
 
@@ -84,4 +84,4 @@ def test_part2():
         1 3 6 10 15 21
         10 13 16 21 30 45
         '''))
-    assert result == 0
+    assert result == 2
