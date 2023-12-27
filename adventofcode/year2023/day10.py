@@ -2,6 +2,7 @@
 
 from collections.abc import Container, Iterator
 from enum import Enum, auto
+from itertools import pairwise
 
 from attrs import define
 
@@ -103,21 +104,36 @@ class Grid:
     def all_connected(self, start: Tile) -> Iterator[Tile]:
         p, n = start, next(self.connected(start))
         while True:
-            yield n
+            yield p
             for connected in self.connected(n):  # pragma: nocover
                 if connected != p:
                     p, n = n, connected
                     break
-            if n == start:
+            if p == start:
                 break
+
+
+def enclosed_area(loop):
+    # Use Pick's algorithm to calculate the enclosed area.
+    area = 0
+    loop = list(loop)
+    for a, b in pairwise(loop + loop[:1]):
+        area += a.i * b.j
+        area -= b.i * a.j
+
+    area = abs(area) // 2
+    return area - len(loop) // 2 + 1
 
 
 def part1(data: str) -> int:
     grid = Grid.from_data(data)
     start = grid.start()
     total = sum(1 for _ in grid.all_connected(start))
-    return int((total + 1) / 2)
+    return total // 2
 
 
 def part2(data: str) -> int:
-    return 0
+    grid = Grid.from_data(data)
+    start = grid.start()
+    loop = grid.all_connected(start)
+    return enclosed_area(loop)
