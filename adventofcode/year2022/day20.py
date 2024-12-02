@@ -14,6 +14,13 @@ class Node:
     left: Optional['Node'] = None
     right: Optional['Node'] = None
 
+    def __eq__(self, other: 'Node'):
+        return (
+            self.value == other.value
+            and self.left.value == other.left.value
+            and self.right.value == other.right.value
+        )
+
     def __repr__(self):
         left = self.left.value if self.left else None
         right = self.right.value if self.right else None

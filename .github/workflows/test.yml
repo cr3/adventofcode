@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.11']
+        python-version: ['3.13']
       fail-fast: false
     steps:
       - name: Check out
@@ -62,7 +62,7 @@ jobs:
       - name: Set up the environment
         uses: ./.github/actions/setup-poetry-env
         with:
-          python-version: "3.11"
+          python-version: "3.13"
           poetry-options: --only test
 
       - name: Download coverage data

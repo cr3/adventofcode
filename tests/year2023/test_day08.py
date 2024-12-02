@@ -73,23 +73,21 @@ def test_instructions_iter():
 
 @pytest.mark.parametrize(
     'data, expected',
-    [
-        (
-            dedent('''\
+    [(
+        dedent('''\
             RL
 
             AAA = (BBB, CCC)
             BBB = (DDD, EEE)
             '''),
-            Network(
-                Instructions('RL'),
-                {
-                    'AAA': Node('AAA', 'BBB', 'CCC'),
-                    'BBB': Node('BBB', 'DDD', 'EEE'),
-                },
-            ),
-        )
-    ],
+        Network(
+            Instructions('RL'),
+            {
+                'AAA': Node('AAA', 'BBB', 'CCC'),
+                'BBB': Node('BBB', 'DDD', 'EEE'),
+            },
+        ),
+    )],
 )
 def test_network_from_data(data, expected):
     result = Network.from_data(data)

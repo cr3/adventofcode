@@ -9,9 +9,9 @@ from operator import itemgetter
 
 from attrs import define
 
-HEIGHTS: dict[str, int] = dict([
-    *zip(list(string.ascii_lowercase), count()), ('S', 0), ('E', 25)
-])
+HEIGHTS: dict[str, int] = dict(
+    [*zip(list(string.ascii_lowercase), count()), ('S', 0), ('E', 25)]
+)
 
 
 @define(frozen=True)

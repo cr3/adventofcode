@@ -10,9 +10,9 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.11"
-advent-of-code-data = "^2.0.1"
-attrs = "^23.1.0"
+python = "^3.13"
+advent-of-code-data = "^2.0.4"
+attrs = "^24.2.0"
 
 [tool.poetry.group.test.dependencies]
 coverage = "^7.2.3"

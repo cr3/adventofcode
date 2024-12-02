@@ -120,9 +120,9 @@ def part2(data: str) -> int:
         for r in m.ranges:
             next_seeds = SeedRanges([])
             for seed in seeds.seed_ranges:
-                sorted_bounds = sorted([
-                    seed.start, seed.end, r.source_start, r.source_end
-                ])
+                sorted_bounds = sorted(
+                    [seed.start, seed.end, r.source_start, r.source_end]
+                )
                 for start, end in pairwise(sorted_bounds):
                     if seed.start <= start < end <= seed.end:
                         if r.source_start <= start < end <= r.source_end:
