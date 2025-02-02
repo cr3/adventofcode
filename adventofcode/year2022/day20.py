@@ -14,11 +14,14 @@ class Node:
     left: Optional['Node'] = None
     right: Optional['Node'] = None
 
-    def __eq__(self, other: 'Node'):
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Node):
+            raise NotImplementedError
+
         return (
             self.value == other.value
-            and self.left.value == other.left.value
-            and self.right.value == other.right.value
+            and self.left.value == other.left.value  # type: ignore
+            and self.right.value == other.right.value  # type: ignore
         )
 
     def __repr__(self):
