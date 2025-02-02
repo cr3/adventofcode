@@ -18,8 +18,8 @@ setup: $(VENV)
 
 .PHONY: check
 check: $(VENV)
-	@echo Checking Poetry lock: Running poetry lock --check
-	@poetry lock --check
+	@echo Checking Poetry lock: Running poetry check --lock
+	@poetry check --lock
 	@echo Linting code: Running pre-commit
 	@poetry run pre-commit run -a
 	@echo Type checking code: Running mypy
