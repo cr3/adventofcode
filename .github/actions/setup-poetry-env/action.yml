@@ -5,7 +5,7 @@ inputs:
    python-version:
      required: false
      description: "Python version to use"
-     default: "3.11"
+     default: "3.13"
    poetry-options:
      required: false
      description: "Poetry options to pass"
